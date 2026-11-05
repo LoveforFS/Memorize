@@ -1,0 +1,915 @@
+{
+  "generatedAt": "2026-11-05 14:42:16",
+  "platform": "Windows",
+  "runner": "Python 3 unittest（行为等价镜像）",
+  "equivalence": "逻辑、布局算法、动画边界与断言等价；UI 用例为状态投影级等价",
+  "summary": {
+    "total": 98,
+    "passed": 98,
+    "failed": 0,
+    "skipped": 0,
+    "passRate": 100.0
+  },
+  "suites": {
+    "GameModelTests": {
+      "total": 28,
+      "passed": 28,
+      "failed": 0
+    },
+    "GameViewModelTests": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "MismatchTimerTests": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "AspectVGridTests": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "AnimationTimingTests": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "GameAnimationCoordinatorTests": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "AnimationIntegrationTests": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0
+    },
+    "GameFlowUITests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "AnimationFlowUITests": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    }
+  },
+  "coverage": {
+    "ok": true,
+    "expectedTotal": 98,
+    "details": [
+      {
+        "suite": "GameModelTests",
+        "swiftCount": 28,
+        "pythonCount": 28,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "GameViewModelTests",
+        "swiftCount": 11,
+        "pythonCount": 11,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "MismatchTimerTests",
+        "swiftCount": 10,
+        "pythonCount": 10,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "AspectVGridTests",
+        "swiftCount": 9,
+        "pythonCount": 9,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "AnimationTimingTests",
+        "swiftCount": 9,
+        "pythonCount": 9,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "GameAnimationCoordinatorTests",
+        "swiftCount": 10,
+        "pythonCount": 10,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "AnimationIntegrationTests",
+        "swiftCount": 13,
+        "pythonCount": 13,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "GameFlowUITests",
+        "swiftCount": 5,
+        "pythonCount": 5,
+        "missingInPython": [],
+        "extraInPython": []
+      },
+      {
+        "suite": "AnimationFlowUITests",
+        "swiftCount": 3,
+        "pythonCount": 3,
+        "missingInPython": [],
+        "extraInPython": []
+      }
+    ]
+  },
+  "results": [
+    {
+      "suite": "GameModelTests",
+      "case": "testBuiltInThemesAreValid",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testCardDefaultState",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testCardEqualityUsesIdentity",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testCardTrimsContent",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testChooseFlipsCard",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testChoosingMatchedCardIsIgnored",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testChoosingNextCardAutoFlipsPendingMismatch",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testChoosingSameFaceUpCardTwiceIsIgnored",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testChoosingUnknownCardIsIgnored",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testDeckClampsOutOfRangePairs",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testDeckContainsTwoCardsPerPair",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testFirstMismatchKeepsScoreAndWaitsForFlipBack",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testFlipBackMismatchIsIdempotent",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testGameInitializerClampsNumberOfPairs",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testGameOverAfterAllPairsMatched",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testGameUsesThemePairCountByDefault",
+      "status": "PASS",
+      "durationMs": 3,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testMatchingPairScoresTwoAndStaysFaceUp",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testNewGameHasCleanState",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testNewGameResetsState",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testRepeatedMismatchPenalizesByOne",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testShuffleKeepsContentMultiset",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testStartNewGameSwitchesThemeAndResetsState",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testThemeClampsPairsToEmojiCount",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testThemeTrimsNameAndEmojis",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testThemeWithEmptyNameThrows",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testThemeWithNonPositivePairsThrows",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testThemeWithoutEmojisThrows",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameModelTests",
+      "case": "testUnshuffledDeckKeepsPairsTogether",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testChooseFlipsCardWithoutLocking",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testChooseThemeResetsGameAndUnlocks",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testChoosingAfterGameOverIsIgnored",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testCompleteMismatchFlipBackUnlocksAndFlipsCards",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testCompleteMismatchFlipBackWithoutPendingMismatchIsNoOp",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testInitialStateIsClean",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testMatchingPairScoresTwoAndStaysUnlocked",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testMismatchLocksInteractionAndIgnoresFurtherTaps",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testNewGameClearsPendingStateAndUnlocks",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testRepeatedMismatchPenalizesByOne",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameViewModelTests",
+      "case": "testRepeatedTapOnSameCardKeepsSingleSelection",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testCompleteWithoutPendingMismatchKeepsState",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testCustomDelayIsUsed",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testFirstFlipDoesNotSchedule",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testLockedPeriodDoesNotScheduleAgain",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testMatchedPairDoesNotSchedule",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testMismatchAfterNewGameSchedulesNewTimer",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testMismatchSchedulesOnceWithDefaultDelay",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testNewGameInvalidatesStaleCallback",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testThemeSwitchInvalidatesStaleCallback",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "MismatchTimerTests",
+      "case": "testTimerFiresFlipsBackAndUnlocks",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testItemWidthIsRoundedDownToWholePoints",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testLandscapeLayoutChoosesMoreColumns",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testLayoutIsDeterministicForSameInput",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testLayoutNeverOverflowsAvailableSpace",
+      "status": "PASS",
+      "durationMs": 1,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testNonPositiveAspectRatioReturnsZero",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testPortraitLayoutChoosesThreeColumns",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testSmallScreenWithManyCardsStillFits",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testZeroItemCountReturnsZero",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AspectVGridTests",
+      "case": "testZeroOrNegativeSizeReturnsZero",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testDealDelayAppliesLinearStagger",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testDealDelayCapsAtMaximum",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testDealDelayIsMonotonic",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testDealDelayNeverExceedsCap",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testDealDelayStartsAtZero",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testDealDurationIsShorterThanFlipDuration",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testFlipDurationIsSmoothAndPositive",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testScoreDeltaReportsIncreaseDecreaseAndNoChange",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationTimingTests",
+      "case": "testScorePopScaleIsPerceptibleButNotExcessive",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testDistinctCardsCanFlipConcurrently",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testDuplicateFlipWhileActiveIsRejected",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testEndAllFlipsClearsActiveCards",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testFirstFlipIsAccepted",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testFlipCanRestartAfterEndFlip",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testInitialStateIsIdle",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testNewBoardClearsFlipsAndIncrementsRevision",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testRapidScoreChangesKeepMonotonicRevision",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testScoreChangeIncrementsRevision",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameAnimationCoordinatorTests",
+      "case": "testUnchangedScoreDoesNotAnimate",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testEndFlipReleasesAnimationSlot",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testFirstFlipRegistersActiveAnimation",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testGameOverSequenceKeepsAnimationStateConsistent",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testInitialAnimationStateIsIdle",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testLockedInteractionDoesNotStartNewAnimations",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testMatchingPairTriggersScoreAnimationWithDeltaTwo",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testMismatchDoesNotTriggerScoreAnimation",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testMismatchFlipBackEndsAllFlipAnimations",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testNewGameResetsBoardRevisionAndClearsAnimations",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testRapidMatchingPairsIncrementScoreRevisionMonotonically",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testRepeatedMismatchPenaltyReportsNegativeDelta",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testRepeatedTapOnSameCardDoesNotDuplicateFlipAnimation",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationIntegrationTests",
+      "case": "testThemeSwitchIncrementsBoardRevision",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameFlowUITests",
+      "case": "testCompletionAlertAndRestart",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameFlowUITests",
+      "case": "testMainScreenShowsCoreElements",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameFlowUITests",
+      "case": "testMatchingPairScoresTwo",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameFlowUITests",
+      "case": "testMismatchLocksHintAndFlipsBackAfterDelay",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "GameFlowUITests",
+      "case": "testThemeSwitchResetsScoreAndBoard",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationFlowUITests",
+      "case": "testRapidDoubleTapFlipsCardOnlyOnce",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationFlowUITests",
+      "case": "testRapidTapsDuringMismatchLockAreIgnored",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    },
+    {
+      "suite": "AnimationFlowUITests",
+      "case": "testThemeSwitchDuringFlipResetsBoardAndAnimations",
+      "status": "PASS",
+      "durationMs": 0,
+      "message": "",
+      "stackTrace": ""
+    }
+  ]
+}
