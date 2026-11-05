@@ -95,16 +95,16 @@
     {
       "item": "无 TODO/FIXME 标记",
       "detail": "源码中未发现"
+    },
+    {
+      "item": "Git 工作区干净",
+      "detail": "除 Test 复核目录外无未提交变更"
     }
   ],
   "warn": [
     {
       "item": "日报日期无重复",
       "detail": "{\"2026 年 11 月 5 日\": [\"day4\", \"day5\"]}"
-    },
-    {
-      "item": "Git 工作区干净",
-      "detail": "存在未提交变更：M day8/Memorize/Views/GameView.swift |  M day8/WinTestHarness/test_results.json |  M day8/演示脚本.md |  M day8/答辩PPT大纲.md"
     }
   ],
   "fail": [],
@@ -273,6 +273,6 @@
         "2026 年 11 月 8 日"
       ]
     },
-    "git_status": "M day8/Memorize/Views/GameView.swift\n M day8/WinTestHarness/test_results.json\n M day8/演示脚本.md\n M day8/答辩PPT大纲.md\n?? Test/"
+    "git_status": ""
   }
 }
