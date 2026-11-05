@@ -118,6 +118,7 @@
 - 重开一局：`newGame()` → 牌局重置 → 按原时长重启倒计时
 - 切换主题：`chooseTheme()` → 同上
 - 超时锁定：`completeMismatchFlipBack()` 仅在 `countdownState != .finished` 时解锁
+- 结算弹窗：通关与超时共用 `isResultAlertPresented`，标题分别为“全部配对成功！”与“时间到！”，均可“再来一局”
 - 未启动场景：纯模型测试中不会凭空启动计时，保证历史基线断言不变
 
 **讲解要点**：说明“为什么超时后翻回任务不会把锁解除”。

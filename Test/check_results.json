@@ -1,0 +1,278 @@
+{
+  "pass": [
+    {
+      "item": "day8 四个核心目录齐全",
+      "detail": "共 33 个文件"
+    },
+    {
+      "item": "day8 业务与测试 Swift 文件数量",
+      "detail": "27 个（业务 15 + 单元/集成 9 + UI 2 + 执行器 1）"
+    },
+    {
+      "item": "day8 根目录无历史日报或多余文件",
+      "detail": "README.md,演示脚本.md,答辩PPT大纲.md,苏信忠-实训日报-第八天.docx"
+    },
+    {
+      "item": "无重复类型声明",
+      "detail": "共 42 个类型"
+    },
+    {
+      "item": "无空函数体",
+      "detail": "未发现 func 空实现"
+    },
+    {
+      "item": "12 个套件用例数与文档一致",
+      "detail": "合计 132 条"
+    },
+    {
+      "item": "test_results.json 结果",
+      "detail": "132/132，coverage.ok=true"
+    },
+    {
+      "item": "README 四个核心模块",
+      "detail": "均存在"
+    },
+    {
+      "item": "README 引用路径存在",
+      "detail": "共 20 个路径引用"
+    },
+    {
+      "item": "README 无历史日期引用",
+      "detail": "未发现 day6/day7 字样"
+    },
+    {
+      "item": "day2 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day3 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day4 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day5 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day6 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day7 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day8 日报内容",
+      "detail": "标题/日期/用例总数均匹配"
+    },
+    {
+      "item": "day8 文档 README.md",
+      "detail": "15851 字节"
+    },
+    {
+      "item": "day8 文档 演示脚本.md",
+      "detail": "6795 字节"
+    },
+    {
+      "item": "day8 文档 答辩PPT大纲.md",
+      "detail": "10271 字节"
+    },
+    {
+      "item": "UI 用例引用的可访问性标识均存在",
+      "detail": "共 7 个"
+    },
+    {
+      "item": "关键参数与文档一致",
+      "detail": "8 项参数全部匹配"
+    },
+    {
+      "item": "文档数值与源码一致",
+      "detail": "4 项抽查通过"
+    },
+    {
+      "item": "无 TODO/FIXME 标记",
+      "detail": "源码中未发现"
+    }
+  ],
+  "warn": [
+    {
+      "item": "日报日期无重复",
+      "detail": "{\"2026 年 11 月 5 日\": [\"day4\", \"day5\"]}"
+    },
+    {
+      "item": "Git 工作区干净",
+      "detail": "存在未提交变更：M day8/Memorize/Views/GameView.swift |  M day8/WinTestHarness/test_results.json |  M day8/演示脚本.md |  M day8/答辩PPT大纲.md"
+    }
+  ],
+  "fail": [],
+  "details": {
+    "inventory": {
+      "day1": {
+        "files": 16,
+        "swift": 0,
+        "docx": [
+          "Agent开发实训单.docx",
+          "day1 (1).docx",
+          "iOS应用开发SwiftUI实训单.docx",
+          "Memorize项目大纲.docx",
+          "Scrumdinger项目实训单.docx",
+          "《综合应用开发项目实训》课程设计实施方案-2026.docx",
+          "全栈项目开发前后端实训单.docx",
+          "实训作业1-选题与计划-2026-10-19.docx",
+          "实训单1.docx",
+          "实训单2.docx",
+          "实训单3.docx",
+          "曹思婕-实训计划及报告.docx",
+          "柯钰--实训计划及报告.docx",
+          "第一天个人实训报告 .docx",
+          "苏信忠-实训计划及报告.docx"
+        ]
+      },
+      "day2": {
+        "files": 5,
+        "swift": 4,
+        "docx": [
+          "苏信忠-实训日报-第二天.docx"
+        ]
+      },
+      "day3": {
+        "files": 11,
+        "swift": 10,
+        "docx": [
+          "苏信忠-实训日报-第三天.docx"
+        ]
+      },
+      "day4": {
+        "files": 19,
+        "swift": 13,
+        "docx": [
+          "D4测试验证报告（Windows）.docx",
+          "D4迁移状态校验报告.docx",
+          "macOS测试执行指南.docx",
+          "苏信忠-实训日报-第四天.docx"
+        ]
+      },
+      "day5": {
+        "files": 18,
+        "swift": 15,
+        "docx": [
+          "苏信忠-实训日报-第五天.docx"
+        ]
+      },
+      "day6": {
+        "files": 24,
+        "swift": 21,
+        "docx": [
+          "苏信忠-实训日报-第六天.docx"
+        ]
+      },
+      "day7": {
+        "files": 30,
+        "swift": 27,
+        "docx": [
+          "苏信忠-实训日报-第七天.docx"
+        ]
+      },
+      "day8": {
+        "files": 33,
+        "swift": 27,
+        "docx": [
+          "苏信忠-实训日报-第八天.docx"
+        ]
+      }
+    },
+    "suites": {
+      "actual": {
+        "AnimationIntegrationTests": 13,
+        "AnimationTimingTests": 9,
+        "AspectVGridTests": 9,
+        "CardifyStyleTests": 8,
+        "CountdownIntegrationTests": 16,
+        "GameAnimationCoordinatorTests": 10,
+        "GameModelTests": 28,
+        "GameViewModelTests": 11,
+        "MismatchTimerTests": 10,
+        "PieGeometryTests": 10,
+        "AnimationFlowUITests": 3,
+        "GameFlowUITests": 5
+      },
+      "expected": {
+        "GameModelTests": 28,
+        "GameViewModelTests": 11,
+        "MismatchTimerTests": 10,
+        "AspectVGridTests": 9,
+        "AnimationTimingTests": 9,
+        "GameAnimationCoordinatorTests": 10,
+        "AnimationIntegrationTests": 13,
+        "CardifyStyleTests": 8,
+        "PieGeometryTests": 10,
+        "CountdownIntegrationTests": 16,
+        "GameFlowUITests": 5,
+        "AnimationFlowUITests": 3
+      },
+      "total": 132
+    },
+    "docx": {
+      "day2": {
+        "title": true,
+        "date": true
+      },
+      "day3": {
+        "title": true,
+        "date": true
+      },
+      "day4": {
+        "title": true,
+        "date": true,
+        "total": true
+      },
+      "day5": {
+        "title": true,
+        "date": true,
+        "total": true
+      },
+      "day6": {
+        "title": true,
+        "date": true,
+        "total": true
+      },
+      "day7": {
+        "title": true,
+        "date": true,
+        "total": true
+      },
+      "day8": {
+        "title": true,
+        "date": true,
+        "total": true
+      }
+    },
+    "docx_dates": {
+      "day2": [
+        "2026 年 11 月 3 日"
+      ],
+      "day3": [
+        "2026 年 11 月 4 日"
+      ],
+      "day4": [
+        "2026 年 11 月 5 日"
+      ],
+      "day5": [
+        "2026 年 11 月 5 日"
+      ],
+      "day6": [
+        "2026 年 11 月 6 日"
+      ],
+      "day7": [
+        "2026 年 11 月 7 日"
+      ],
+      "day8": [
+        "2026 年 11 月 8 日"
+      ]
+    },
+    "git_status": "M day8/Memorize/Views/GameView.swift\n M day8/WinTestHarness/test_results.json\n M day8/演示脚本.md\n M day8/答辩PPT大纲.md\n?? Test/"
+  }
+}
