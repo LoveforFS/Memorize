@@ -162,7 +162,7 @@
 ## 第 13 页　测试执行与验证证据
 
 - macOS 原生：`⌘U` 或 `xcodebuild test -scheme Memorize -destination 'platform=iOS Simulator,name=iPhone 15'`
-- Windows 等价：`D:\miniconda3\python.exe day8/WinTestHarness/run_tests.py`
+- Windows 等价：`python day8/WinTestHarness/run_tests.py`
 - 结果证据（截图位 / 结果说明）：
   - 控制台：`总计 132 条 | 通过 132 | 失败 0 | 跳过 0 | 通过率 100.00%`
   - 映射校验：`Swift 132 条，Python 132 条，一致`；12 个套件缺失 0、多余 0
@@ -186,10 +186,12 @@
 
 ## 第 15 页　交付物与目录说明
 
+- 工程：`Memorize.xcodeproj`（3 Targets + 共享 Scheme，可直接 `xcodebuild`）
 - 源码：`Memorize/`（Models / ViewModels / Views）
 - 测试：`MemorizeTests/`（124 条）、`MemorizeUITests/`（8 条）
 - 执行器：`WinTestHarness/run_tests.py` + `test_results.json`
-- 文档：`README.md`、`演示脚本.md`、`答辩PPT大纲.md`、第八天日报 docx
+- 文档：`README.md`、`演示脚本.md`、`答辩PPT大纲.md`、`项目核心文档.md`、
+  `WorkBuddy交接提示词.md`、`录屏拍摄清单.md`、第八天日报 docx
 - 版本管理：Git 按日提交，每日一个可运行里程碑
 
 **讲解要点**：说明“代码、测试、文档、证据”四件套齐全。

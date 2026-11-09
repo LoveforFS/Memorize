@@ -14,6 +14,10 @@ Memorize 是一款基于 SwiftUI 的记忆配对游戏：点击卡片翻开 emoj
 
 ```
 day8/
+├── Memorize.xcodeproj/           # 可直接打开的 Xcode 工程
+│   ├── project.pbxproj           # 3 个 Target：Memorize / MemorizeTests / MemorizeUITests
+│   └── xcshareddata/xcschemes/
+│       └── Memorize.xcscheme     # 共享 Scheme（含单元测试包与 UI 测试包）
 ├── Memorize/                     # 应用主目标（iOS App）
 │   ├── MemorizeApp.swift         # @main 入口
 │   ├── Models/                   # 领域模型层
@@ -33,12 +37,19 @@ day8/
 │       ├── ThemeButton.swift
 │       ├── AspectVGrid.swift
 │       └── AnimationTiming.swift
-├── MemorizeTests/                # 单元 / 集成测试（124 条）
-├── MemorizeUITests/              # UI 自动化测试（8 条）
+├── MemorizeTests/                # 单元 / 集成测试（10 个文件，124 条）
+├── MemorizeUITests/              # UI 自动化测试（2 个文件，8 条）
 ├── WinTestHarness/               # Windows 行为等价执行器
 │   ├── run_tests.py
 │   └── test_results.json         # 最近一次执行结果
-└── README.md
+├── README.md
+├── 演示脚本.md
+├── 答辩PPT大纲.md
+├── 项目核心文档.md                # 模块说明、历史问题、架构与边界
+├── WorkBuddy交接提示词.md         # 后续交接用关键字提示词
+├── 录屏拍摄清单.md                # 演示录屏分镜与验收清单
+├── 学习笔记-第八天.md              # D8 重点难点、关键技术点与自测题
+└── 苏信忠-实训日报-第八天.docx
 ```
 
 ---
@@ -141,7 +152,9 @@ GameView.onAppear ──▶ startCountdownIfNeeded() ──▶ CountdownClock.st
 | Windows 验证环境 | Python 3.10+（本机实测 3.12.9） | 仅标准库，无第三方依赖 |
 | Git | 任意近版本 | 版本管理与提交 |
 
-> 仓库不包含 `.xcodeproj`（避免机器相关的工程文件冲突），首次构建需按下述步骤创建工程并挂载源码。
+> 仓库已包含可直接打开的 `Memorize.xcodeproj`：三个 Target、共享 Scheme 与源码挂载均已配置完成，
+> 无需手工新建工程。工程文件由 `Test/gen_xcodeproj.py` 生成并通过结构与语法自检；
+> 若源码文件增删，重新执行该脚本即可同步工程。
 
 ### 4.2 构建步骤（按顺序执行）
 
@@ -150,31 +163,32 @@ GameView.onAppear ──▶ startCountdownIfNeeded() ──▶ CountdownClock.st
    git clone <仓库地址>
    cd 综合应用开发项目实训/day8
    ```
-2. **创建 Xcode 工程**
-   - Xcode → File → New → Project → iOS → App；
-   - Product Name：`Memorize`；Interface：SwiftUI；Language：Swift；Testing System：None（测试目标后续单独添加）；
-   - Bundle Identifier 建议 `com.suxinzhong.memorize`；Minimum Deployment：iOS 16.0。
-3. **挂载业务源码**
-   - 删除模板生成的 `MemorizeApp.swift` 与 `ContentView.swift`；
-   - 将本仓库 `day8/Memorize/` 下的 `MemorizeApp.swift`、`Models/`、`ViewModels/`、`Views/` 拖入工程；
-   - 勾选 Copy items if needed，Target Membership 仅勾选 `Memorize`。
-4. **添加测试目标**
-   - File → New → Target → Unit Testing，命名 `MemorizeTests`，Host Application 选择 `Memorize`；
-   - File → New → Target → UI Testing，命名 `MemorizeUITests`，Target Application 选择 `Memorize`；
-   - 分别把 `day8/MemorizeTests/`、`day8/MemorizeUITests/` 下的 Swift 文件加入对应目标（不要加入主目标）。
-5. **确认模块名**
-   - 测试文件使用 `@testable import Memorize`，因此主目标 Product Module Name 必须为 `Memorize`（默认与 Product Name 一致）。
-6. **编译**
-   - 选择 `Memorize` scheme 与 iPhone 15 模拟器；
-   - `⌘B` 编译，`⌘R` 运行；首次运行需在模拟器中允许无签名调试。
-7. **打包（可选，用于交付演示）**
+2. **打开工程并自检**
+   ```bash
+   open Memorize.xcodeproj
+   # 或先做命令行自检，应列出 Memorize、MemorizeTests、MemorizeUITests
+   xcodebuild -list -project Memorize.xcodeproj
+   ```
+   - 工程已包含共享 Scheme `Memorize`，无需在 Xcode 中重新创建 Target 或拖入源码。
+3. **选择 Scheme 与运行目标**
+   - Scheme：`Memorize`；运行目标：iPhone 15 模拟器（iOS 16+）或已连接真机。
+   - 真机运行需在 Signing & Capabilities 中选择自己的 Team；模拟器运行无需签名。
+4. **编译与运行**
+   - `⌘B` 编译，`⌘R` 运行；首次运行若提示不可信开发者，在设备上手动信任。
+5. **执行测试**
+   - `⌘U` 运行全量 132 条，或使用 §5.2 的 `xcodebuild test` 命令。
+6. **打包（可选，用于交付演示）**
    - Product → Archive → Distribute App；
    - 选择 Development / Ad Hoc 导出，需要有效的开发者 Team 与签名证书；无签名时仅能在模拟器运行。
-8. **Windows 侧可用性验证（等价执行）**
+7. **Windows 侧可用性验证（等价执行）**
    ```powershell
-   D:\miniconda3\python.exe "c:\Users\22320\Desktop\实训\综合应用开发项目实训\day8\WinTestHarness\run_tests.py"
+   python WinTestHarness/run_tests.py
    ```
    退出码 0 且输出 `总计 132 条 | 通过 132 | 失败 0` 即视为通过。
+
+> 如需重建工程（例如大批量增删源码文件），执行：
+> `python "c:\Users\22320\Desktop\实训\综合应用开发项目实训\Test\gen_xcodeproj.py"`。
+> 该脚本会重新扫描三个源码目录并生成工程与共享 Scheme。
 
 ---
 
@@ -200,13 +214,19 @@ GameView.onAppear ──▶ startCountdownIfNeeded() ──▶ CountdownClock.st
 
 ### 5.2 macOS 原生执行方式
 
-- **全量执行**：Xcode 中 `⌘U`，或命令行：
-  ```bash
-  xcodebuild test \
-    -project Memorize.xcodeproj \
-    -scheme Memorize \
-    -destination 'platform=iOS Simulator,name=iPhone 15'
-  ```
+```bash
+cd 综合应用开发项目实训/day8
+
+# 1. 工程自检：应列出 Memorize、MemorizeTests、MemorizeUITests
+xcodebuild -list -project Memorize.xcodeproj
+
+# 2. 全量执行（Xcode 中也可直接 ⌘U）
+xcodebuild test \
+  -project Memorize.xcodeproj \
+  -scheme Memorize \
+  -destination 'platform=iOS Simulator,name=iPhone 15'
+```
+
 - **单套件执行**：
   ```bash
   xcodebuild test -project Memorize.xcodeproj -scheme Memorize \
@@ -219,13 +239,14 @@ GameView.onAppear ──▶ startCountdownIfNeeded() ──▶ CountdownClock.st
     -destination 'platform=iOS Simulator,name=iPhone 15' \
     -only-testing:MemorizeTests/CountdownIntegrationTests/testCountdownFinishesAtZeroAndLocksInteraction
   ```
+- **可选参数**：`-resultBundlePath ./TestResults.xcresult` 保存结果包；`-enableCodeCoverage YES` 开启覆盖率。
 - **输出**：Xcode Test Navigator 显示逐条状态；命令行输出 `Test Suite ... passed` 与 `Executed 132 tests, with 0 failures`。
-- **通过判定**：132 条全部 `passed`，失败数 0、跳过数 0。
+- **通过判定**：132 条全部 `passed`，失败数 0、跳过数 0；若模拟器名称不同，先用 `xcrun simctl list devices available` 查看可用设备。
 
 ### 5.3 Windows 行为等价执行方式
 
 ```powershell
-D:\miniconda3\python.exe "c:\Users\22320\Desktop\实训\综合应用开发项目实训\day8\WinTestHarness\run_tests.py"
+python WinTestHarness/run_tests.py
 ```
 
 - **执行方式**：Python `unittest` 逐条运行，每条用例打印 `[PASS]` / `[FAIL]`；
@@ -250,9 +271,14 @@ D:\miniconda3\python.exe "c:\Users\22320\Desktop\实训\综合应用开发项目
 
 | 产物 | 路径 | 说明 |
 | --- | --- | --- |
+| Xcode 工程 | `Memorize.xcodeproj/` | 3 Targets + 共享 Scheme，可直接 `xcodebuild` |
 | 应用源码 | `Memorize/` | 模型、视图模型、视图三层完整实现 |
 | 测试源码 | `MemorizeTests/`、`MemorizeUITests/` | 132 条用例 |
 | 等价执行结果 | `WinTestHarness/test_results.json` | 最近一次 132/132 通过记录 |
 | 演示脚本 | `演示脚本.md` | 现场演示操作顺序与展示要点 |
 | 答辩大纲 | `答辩PPT大纲.md` | 交互、动画、倒计时与测试证据 |
+| 项目核心文档 | `项目核心文档.md` | 模块说明、历史问题与架构边界 |
+| 交接提示词 | `WorkBuddy交接提示词.md` | 后续开发的无缝交接说明 |
+| 录屏清单 | `录屏拍摄清单.md` | 分镜、时长、讲解词与验收点 |
+| 学习笔记 | `学习笔记-第八天.md` | 重点难点、关键技术点、验证记录与 12 道自测题 |
 | 日报 | `苏信忠-实训日报-第八天.docx` | 第八天工作日报 |
