@@ -21,3 +21,22 @@ xcuserdata/
 # Playground
 timeline.xctimeline
 playground.xcworkspace
+
+# 原生验收产物（.xcresult / 日志体积大，不入库）
+Test/native_acceptance/evidence/
+*.xcresult
+
+# 演示录屏（体积大，单独归档，不入库）
+day8/录屏/
+*.mp4
+
+# 本地工作区数据（会话记忆等，非交付物）
+.workbuddy/
+
+# 交付包副本（内容与 day8 重复，权威版本以 day8/ 为准）
+Test/WorkBuddy-Delivery/
+
+# 临时校验目录
+tmpcheck/
+*.tmp
+*.log
