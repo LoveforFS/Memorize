@@ -1133,8 +1133,15 @@ class MismatchTimerTests(MemorizeTestCase):
         view_model.choose(view_model.cards[0])
         view_model.choose(view_model.cards[2])
         view_model.new_game()
-        view_model.choose(view_model.cards[0])
-        view_model.choose(view_model.cards[2])
+
+        # new_game 会洗牌，不能假设固定下标内容不同；按内容显式选取一对错配。
+        first_index = 0
+        second_index = next(
+            i for i, card in enumerate(view_model.cards)
+            if card.content != view_model.cards[first_index].content
+        )
+        view_model.choose(view_model.cards[first_index])
+        view_model.choose(view_model.cards[second_index])
         self.assertEqual(timer.scheduled_delays, [0.8, 0.8])
 
         timer.fire_next()
@@ -1144,8 +1151,8 @@ class MismatchTimerTests(MemorizeTestCase):
         timer.fire_next()
         self.assertFalse(view_model.is_interaction_locked)
         self.assertFalse(view_model.has_pending_mismatch)
-        self.assertFalse(view_model.cards[0].is_face_up)
-        self.assertFalse(view_model.cards[2].is_face_up)
+        self.assertFalse(view_model.cards[first_index].is_face_up)
+        self.assertFalse(view_model.cards[second_index].is_face_up)
 
 
 # ---------------------------------------------------------------------------

@@ -943,8 +943,17 @@ class MismatchTimerTests(MemorizeTestCase):
         view_model.choose(view_model.cards[0])
         view_model.choose(view_model.cards[2])
         view_model.new_game()
-        view_model.choose(view_model.cards[0])
-        view_model.choose(view_model.cards[2])
+
+        # 重开会洗牌，固定下标可能取到同一 emoji 而配对成功，
+        # 因此与 Swift 版一致，按内容挑选两张不同的卡片。
+        first_index = 0
+        candidates = [i for i, c in enumerate(view_model.cards)
+                      if c.content != view_model.cards[first_index].content]
+        self.assertTrue(candidates, "重开后找不到不同内容的卡片")
+        second_index = candidates[0]
+
+        view_model.choose(view_model.cards[first_index])
+        view_model.choose(view_model.cards[second_index])
         self.assertEqual(timer.scheduled_delays, [0.8, 0.8])
 
         timer.fire_next()
@@ -954,8 +963,8 @@ class MismatchTimerTests(MemorizeTestCase):
         timer.fire_next()
         self.assertFalse(view_model.is_interaction_locked)
         self.assertFalse(view_model.has_pending_mismatch)
-        self.assertFalse(view_model.cards[0].is_face_up)
-        self.assertFalse(view_model.cards[2].is_face_up)
+        self.assertFalse(view_model.cards[first_index].is_face_up)
+        self.assertFalse(view_model.cards[second_index].is_face_up)
 
 
 # ---------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05 14:29:13",
+  "generatedAt": "2026-11-06 14:13:22",
   "platform": "Windows",
   "runner": "Python 3 unittest（行为等价镜像）",
   "equivalence": "逻辑、布局算法与断言等价；UI 用例为状态投影级等价",
@@ -203,7 +203,7 @@
       "suite": "GameModelTests",
       "case": "testGameUsesThemePairCountByDefault",
       "status": "PASS",
-      "durationMs": 3,
+      "durationMs": 2,
       "message": "",
       "stackTrace": ""
     },

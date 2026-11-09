@@ -28,7 +28,7 @@ struct ThemeButton: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text("主题：\(theme.name)"))
-        .accessibilityValue(Text(isSelected ? "当前已选中" : ""))
+        .accessibilityValue(Text(isSelected ? "当前已选中" : "未选中"))
     }
 }
 

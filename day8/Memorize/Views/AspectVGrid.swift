@@ -29,13 +29,17 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
                 aspectRatio: aspectRatio
             )
 
-            LazyVGrid(
-                columns: [GridItem(.adaptive(minimum: itemWidth), spacing: 0)],
-                spacing: 0
-            ) {
-                ForEach(items) { item in
-                    content(item)
-                        .aspectRatio(aspectRatio, contentMode: .fit)
+            // 可用空间极小时宽度会算到 0；此时不渲染网格，
+            // 避免 GridItem 出现 0 最小宽度导致布局异常。
+            if itemWidth > 0 {
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: itemWidth), spacing: 0)],
+                    spacing: 0
+                ) {
+                    ForEach(items) { item in
+                        content(item)
+                            .aspectRatio(aspectRatio, contentMode: .fit)
+                    }
                 }
             }
         }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05 14:42:16",
+  "generatedAt": "2026-11-07 23:15:47",
   "platform": "Windows",
   "runner": "Python 3 unittest（行为等价镜像）",
   "equivalence": "逻辑、布局算法、动画边界与断言等价；UI 用例为状态投影级等价",

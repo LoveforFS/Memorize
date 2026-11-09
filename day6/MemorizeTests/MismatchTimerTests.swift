@@ -177,8 +177,18 @@ final class MismatchTimerTests: XCTestCase {
         viewModel.choose(viewModel.cards[2])
 
         viewModel.newGame()
-        viewModel.choose(viewModel.cards[0])
-        viewModel.choose(viewModel.cards[2])
+
+        // 重开会洗牌，固定下标可能取到同一 emoji 而配对成功，
+        // 导致不触发错配计时；因此按内容挑选两张不同的卡片。
+        guard let firstIndex = viewModel.cards.indices.first,
+              let secondIndex = viewModel.cards.indices.first(where: {
+                  viewModel.cards[$0].content != viewModel.cards[firstIndex].content
+              }) else {
+            return XCTFail("重开后找不到不同内容的卡片")
+        }
+
+        viewModel.choose(viewModel.cards[firstIndex])
+        viewModel.choose(viewModel.cards[secondIndex])
 
         XCTAssertEqual(timer.scheduledDelays, [0.8, 0.8])
 
@@ -191,7 +201,7 @@ final class MismatchTimerTests: XCTestCase {
         timer.fireNext()
         XCTAssertFalse(viewModel.isInteractionLocked)
         XCTAssertFalse(viewModel.hasPendingMismatch)
-        XCTAssertFalse(viewModel.cards[0].isFaceUp)
-        XCTAssertFalse(viewModel.cards[2].isFaceUp)
+        XCTAssertFalse(viewModel.cards[firstIndex].isFaceUp)
+        XCTAssertFalse(viewModel.cards[secondIndex].isFaceUp)
     }
 }

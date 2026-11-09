@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05 15:23:45",
+  "generatedAt": "2026-11-09 16:36:22",
   "platform": "Windows",
   "runner": "Python 3 unittest（行为等价镜像）",
   "equivalence": "逻辑、布局算法、动画边界、卡片几何与倒计时状态机等价；UI 用例为状态投影级等价",
@@ -287,7 +287,7 @@
       "suite": "GameModelTests",
       "case": "testGameUsesThemePairCountByDefault",
       "status": "PASS",
-      "durationMs": 3,
+      "durationMs": 0,
       "message": "",
       "stackTrace": ""
     },
@@ -583,7 +583,7 @@
       "suite": "AspectVGridTests",
       "case": "testLayoutNeverOverflowsAvailableSpace",
       "status": "PASS",
-      "durationMs": 1,
+      "durationMs": 0,
       "message": "",
       "stackTrace": ""
     },
