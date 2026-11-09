@@ -2,15 +2,19 @@
   "pass": [
     {
       "item": "day8 四个核心目录齐全",
-      "detail": "共 33 个文件"
+      "detail": "共 39 个文件"
     },
     {
       "item": "day8 业务与测试 Swift 文件数量",
-      "detail": "27 个（业务 15 + 单元/集成 9 + UI 2 + 执行器 1）"
+      "detail": "27 个（业务 15 + 单元/集成 10 + UI 2）"
+    },
+    {
+      "item": "Xcode 工程文件",
+      "detail": "project.pbxproj 与共享 Scheme 存在且结构完整"
     },
     {
       "item": "day8 根目录无历史日报或多余文件",
-      "detail": "README.md,演示脚本.md,答辩PPT大纲.md,苏信忠-实训日报-第八天.docx"
+      "detail": "README.md,WorkBuddy交接提示词.md,学习笔记-第八天.md,录屏拍摄清单.md,演示脚本.md,答辩PPT大纲.md,苏信忠-实训日报-第八天.docx,项目核心文档.md"
     },
     {
       "item": "无重复类型声明",
@@ -70,15 +74,15 @@
     },
     {
       "item": "day8 文档 README.md",
-      "detail": "15851 字节"
+      "detail": "17195 字节"
     },
     {
       "item": "day8 文档 演示脚本.md",
-      "detail": "6795 字节"
+      "detail": "7364 字节"
     },
     {
       "item": "day8 文档 答辩PPT大纲.md",
-      "detail": "10271 字节"
+      "detail": "10428 字节"
     },
     {
       "item": "UI 用例引用的可访问性标识均存在",
@@ -95,16 +99,16 @@
     {
       "item": "无 TODO/FIXME 标记",
       "detail": "源码中未发现"
-    },
-    {
-      "item": "Git 工作区干净",
-      "detail": "除 Test 复核目录外无未提交变更"
     }
   ],
   "warn": [
     {
       "item": "日报日期无重复",
       "detail": "{\"2026 年 11 月 5 日\": [\"day4\", \"day5\"]}"
+    },
+    {
+      "item": "Git 工作区干净",
+      "detail": "存在未提交变更：M .gitignore |  M Test/check_project.py |  M Test/check_results.json |  M Test/复核报告-第八天.md |  M day5/Memorize/Views/AspectVGrid.swift |  M day5/Memorize/Views/ThemeButton.swift |  M day5/MemorizeTests/MismatchTimerTests.swift |  M day5/WinTestHarness/run_tests.py |  M day5/WinTestHarness/test_results.json |  M day6/Memorize/Views/AspectVGrid.swift |  M day6/Memorize/Views/ThemeButton.swift |  M day6/MemorizeTests/MismatchTimerTests.swift |  M day6/WinTestHarness/run_tests.py |  M day6/WinTestHarness/test_results.json |  M day6/苏信忠-实训日报-第六天.docx |  M day7/Memorize/Views/AspectVGrid.swift |  M day7/Memorize/Views/ThemeButton.swift |  M day7/MemorizeTests/MismatchTimerTests.swift |  M day7/WinTestHarness/run_tests.py |  M day7/WinTestHarness/test_results.json |  M day7/苏信忠-实训日报-第七天.docx |  M day8/Memorize/Views/AspectVGrid.swift |  M day8/Memorize/Views/ThemeButton.swift |  M day8/MemorizeTests/MismatchTimerTests.swift |  M day8/README.md |  M day8/WinTestHarness/run_tests.py |  M day8/WinTestHarness/test_results.json |  M day8/演示脚本.md |  M day8/答辩PPT大纲.md |  M day8/苏信忠-实训日报-第八天.docx | ?? .github/ | ?? .workbuddy/ | ?? day8/Memorize.xcodeproj/ | ?? day8/WorkBuddy交接提示词.md | ?? day8/学习笔记-第八天.md | ?? day8/录屏拍摄清单.md | ?? day8/项目核心文档.md"
     }
   ],
   "fail": [],
@@ -177,7 +181,7 @@
         ]
       },
       "day8": {
-        "files": 33,
+        "files": 39,
         "swift": 27,
         "docx": [
           "苏信忠-实训日报-第八天.docx"
@@ -273,6 +277,6 @@
         "2026 年 11 月 8 日"
       ]
     },
-    "git_status": ""
+    "git_status": "M .gitignore\n M Test/check_project.py\n M Test/check_results.json\n M Test/复核报告-第八天.md\n M day5/Memorize/Views/AspectVGrid.swift\n M day5/Memorize/Views/ThemeButton.swift\n M day5/MemorizeTests/MismatchTimerTests.swift\n M day5/WinTestHarness/run_tests.py\n M day5/WinTestHarness/test_results.json\n M day6/Memorize/Views/AspectVGrid.swift\n M day6/Memorize/Views/ThemeButton.swift\n M day6/MemorizeTests/MismatchTimerTests.swift\n M day6/WinTestHarness/run_tests.py\n M day6/WinTestHarness/test_results.json\n M day6/苏信忠-实训日报-第六天.docx\n M day7/Memorize/Views/AspectVGrid.swift\n M day7/Memorize/Views/ThemeButton.swift\n M day7/MemorizeTests/MismatchTimerTests.swift\n M day7/WinTestHarness/run_tests.py\n M day7/WinTestHarness/test_results.json\n M day7/苏信忠-实训日报-第七天.docx\n M day8/Memorize/Views/AspectVGrid.swift\n M day8/Memorize/Views/ThemeButton.swift\n M day8/MemorizeTests/MismatchTimerTests.swift\n M day8/README.md\n M day8/WinTestHarness/run_tests.py\n M day8/WinTestHarness/test_results.json\n M day8/演示脚本.md\n M day8/答辩PPT大纲.md\n M day8/苏信忠-实训日报-第八天.docx\n?? .github/\n?? .workbuddy/\n?? Test/Git提交方案-2026-11-09.md\n?? Test/Windows-FAIL修复指引.md\n?? Test/Windows环境诊断-2026-11-09.md\n?? Test/WorkBuddy-Delivery/\n?? Test/WorkBuddy-项目上下文提示词.txt\n?? Test/gen_xcodeproj.py\n?? Test/macOS-开发环境搭建指南.md\n?? Test/macOS验证脚本-Windows模拟方案.md\n?? Test/native_acceptance/\n?? Test/verify_macos_dev_env.sh\n?? Test/verify_macos_env.sh\n?? Test/无Mac环境推进方案-2026-11-09.md\n?? Test/环境配置说明-2026-11-09.md\n?? Test/证据回填清单-原生验收.md\n?? day8/Memorize.xcodeproj/\n?? day8/WorkBuddy交接提示词.md\n?? day8/学习笔记-第八天.md\n?? day8/录屏拍摄清单.md\n?? day8/项目核心文档.md"
   }
 }

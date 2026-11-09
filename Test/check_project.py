@@ -81,13 +81,36 @@ day8_business_files = swift_files(os.path.join(DAY8, "Memorize")) + \
     swift_files(os.path.join(DAY8, "MemorizeTests")) + \
     swift_files(os.path.join(DAY8, "MemorizeUITests"))
 if len(day8_business_files) == 27:
-    ok("day8 业务与测试 Swift 文件数量", "27 个（业务 15 + 单元/集成 9 + UI 2 + 执行器 1）")
+    ok("day8 业务与测试 Swift 文件数量", "27 个（业务 15 + 单元/集成 10 + UI 2）")
 else:
     warn("day8 Swift 文件数量", "实际 %d 个，预期 27" % len(day8_business_files))
 
-# 排除日报：day8 根目录仅允许 README/演示脚本/答辩大纲/第八天日报
+# Xcode 工程文件（R-02 交付要求）
+proj_path = os.path.join(DAY8, "Memorize.xcodeproj", "project.pbxproj")
+scheme_path = os.path.join(DAY8, "Memorize.xcodeproj", "xcshareddata", "xcschemes",
+                           "Memorize.xcscheme")
+if os.path.isfile(proj_path) and os.path.isfile(scheme_path):
+    proj_text = read(proj_path)
+    checks = {
+        "3 个 Target": proj_text.count("isa = PBXNativeTarget;") == 3,
+        "27 个 BuildFile": proj_text.count("isa = PBXBuildFile;") == 27,
+        "应用 Target": "com.apple.product-type.application" in proj_text,
+        "单元测试 Target": "com.apple.product-type.bundle.unit-test" in proj_text,
+        "UI 测试 Target": "com.apple.product-type.bundle.ui-testing" in proj_text,
+        "共享 Scheme": "MemorizeTests.xctest" in read(scheme_path),
+    }
+    if all(checks.values()):
+        ok("Xcode 工程文件", "project.pbxproj 与共享 Scheme 存在且结构完整")
+    else:
+        fail("Xcode 工程文件", json.dumps(checks, ensure_ascii=False))
+else:
+    fail("Xcode 工程文件存在", "缺少 project.pbxproj 或 Memorize.xcscheme")
+
+# 排除日报：day8 根目录仅允许规定产物
 root_files = [f for f in os.listdir(DAY8) if os.path.isfile(os.path.join(DAY8, f))]
-allowed_root = {"README.md", "演示脚本.md", "答辩PPT大纲.md", "苏信忠-实训日报-第八天.docx"}
+allowed_root = {"README.md", "演示脚本.md", "答辩PPT大纲.md", "项目核心文档.md",
+                "WorkBuddy交接提示词.md", "录屏拍摄清单.md", "学习笔记-第八天.md",
+                "苏信忠-实训日报-第八天.docx"}
 extra = [f for f in root_files if f not in allowed_root]
 if extra:
     fail("day8 根目录无历史日报或多余文件", "多余：" + ",".join(extra))

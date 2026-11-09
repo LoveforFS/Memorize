@@ -1,0 +1,648 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B80000000000000000000001 /* MemorizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000001 /* MemorizeApp.swift */; };
+		B80000000000000000000002 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000002 /* Card.swift */; };
+		B80000000000000000000003 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000003 /* Game.swift */; };
+		B80000000000000000000004 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000004 /* Theme.swift */; };
+		B80000000000000000000005 /* CountdownClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000005 /* CountdownClock.swift */; };
+		B80000000000000000000006 /* GameAnimationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000006 /* GameAnimationCoordinator.swift */; };
+		B80000000000000000000007 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000007 /* GameViewModel.swift */; };
+		B80000000000000000000008 /* MismatchTimerScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000008 /* MismatchTimerScheduling.swift */; };
+		B80000000000000000000009 /* AnimationTiming.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000009 /* AnimationTiming.swift */; };
+		B80000000000000000000010 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000010 /* AspectVGrid.swift */; };
+		B80000000000000000000011 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000011 /* CardView.swift */; };
+		B80000000000000000000012 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000012 /* Cardify.swift */; };
+		B80000000000000000000013 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000013 /* GameView.swift */; };
+		B80000000000000000000014 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000014 /* Pie.swift */; };
+		B80000000000000000000015 /* ThemeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000015 /* ThemeButton.swift */; };
+		B80000000000000000000016 /* AnimationIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000016 /* AnimationIntegrationTests.swift */; };
+		B80000000000000000000017 /* AnimationTimingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000017 /* AnimationTimingTests.swift */; };
+		B80000000000000000000018 /* AspectVGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000018 /* AspectVGridTests.swift */; };
+		B80000000000000000000019 /* CardifyStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000019 /* CardifyStyleTests.swift */; };
+		B80000000000000000000020 /* CountdownIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000020 /* CountdownIntegrationTests.swift */; };
+		B80000000000000000000021 /* GameAnimationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000021 /* GameAnimationCoordinatorTests.swift */; };
+		B80000000000000000000022 /* GameModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000022 /* GameModelTests.swift */; };
+		B80000000000000000000023 /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000023 /* GameViewModelTests.swift */; };
+		B80000000000000000000024 /* MismatchTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000024 /* MismatchTimerTests.swift */; };
+		B80000000000000000000025 /* PieGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000025 /* PieGeometryTests.swift */; };
+		B80000000000000000000026 /* AnimationFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000026 /* AnimationFlowUITests.swift */; };
+		B80000000000000000000027 /* GameFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80000000000000000000027 /* GameFlowUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E80000000000000000000001 /* MemorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeApp.swift; sourceTree = "<group>"; };
+		E80000000000000000000002 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		E80000000000000000000003 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		E80000000000000000000004 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		E80000000000000000000005 /* CountdownClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownClock.swift; sourceTree = "<group>"; };
+		E80000000000000000000006 /* GameAnimationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAnimationCoordinator.swift; sourceTree = "<group>"; };
+		E80000000000000000000007 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		E80000000000000000000008 /* MismatchTimerScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MismatchTimerScheduling.swift; sourceTree = "<group>"; };
+		E80000000000000000000009 /* AnimationTiming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTiming.swift; sourceTree = "<group>"; };
+		E80000000000000000000010 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		E80000000000000000000011 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		E80000000000000000000012 /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
+		E80000000000000000000013 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		E80000000000000000000014 /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
+		E80000000000000000000015 /* ThemeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeButton.swift; sourceTree = "<group>"; };
+		E80000000000000000000016 /* AnimationIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationIntegrationTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000017 /* AnimationTimingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTimingTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000018 /* AspectVGridTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGridTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000019 /* CardifyStyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardifyStyleTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000020 /* CountdownIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownIntegrationTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000021 /* GameAnimationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAnimationCoordinatorTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000022 /* GameModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000023 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000024 /* MismatchTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MismatchTimerTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000025 /* PieGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieGeometryTests.swift; sourceTree = "<group>"; };
+		E80000000000000000000026 /* AnimationFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFlowUITests.swift; sourceTree = "<group>"; };
+		E80000000000000000000027 /* GameFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFlowUITests.swift; sourceTree = "<group>"; };
+		D80000000000000000000013 /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80000000000000000000014 /* MemorizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemorizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80000000000000000000015 /* MemorizeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemorizeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D80000000000000000000029 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXFrameworksBuildPhase section */
+		D80000000000000000000032 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXFrameworksBuildPhase section */
+		D80000000000000000000035 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D80000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				D80000000000000000000004 /* Memorize */,
+				D80000000000000000000008 /* MemorizeTests */,
+				D80000000000000000000009 /* MemorizeUITests */,
+				D80000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D80000000000000000000004 /* Memorize */ = {
+			isa = PBXGroup;
+			children = (
+				E80000000000000000000001 /* MemorizeApp.swift */,
+				D80000000000000000000005 /* Models */,
+				D80000000000000000000006 /* ViewModels */,
+				D80000000000000000000007 /* Views */,
+			);
+			path = Memorize;
+			sourceTree = "<group>";
+		};
+		D80000000000000000000005 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E80000000000000000000002 /* Card.swift */,
+				E80000000000000000000003 /* Game.swift */,
+				E80000000000000000000004 /* Theme.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D80000000000000000000006 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E80000000000000000000005 /* CountdownClock.swift */,
+				E80000000000000000000006 /* GameAnimationCoordinator.swift */,
+				E80000000000000000000007 /* GameViewModel.swift */,
+				E80000000000000000000008 /* MismatchTimerScheduling.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D80000000000000000000007 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E80000000000000000000009 /* AnimationTiming.swift */,
+				E80000000000000000000010 /* AspectVGrid.swift */,
+				E80000000000000000000011 /* CardView.swift */,
+				E80000000000000000000012 /* Cardify.swift */,
+				E80000000000000000000013 /* GameView.swift */,
+				E80000000000000000000014 /* Pie.swift */,
+				E80000000000000000000015 /* ThemeButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D80000000000000000000008 /* MemorizeTests */ = {
+			isa = PBXGroup;
+			children = (
+				E80000000000000000000016 /* AnimationIntegrationTests.swift */,
+				E80000000000000000000017 /* AnimationTimingTests.swift */,
+				E80000000000000000000018 /* AspectVGridTests.swift */,
+				E80000000000000000000019 /* CardifyStyleTests.swift */,
+				E80000000000000000000020 /* CountdownIntegrationTests.swift */,
+				E80000000000000000000021 /* GameAnimationCoordinatorTests.swift */,
+				E80000000000000000000022 /* GameModelTests.swift */,
+				E80000000000000000000023 /* GameViewModelTests.swift */,
+				E80000000000000000000024 /* MismatchTimerTests.swift */,
+				E80000000000000000000025 /* PieGeometryTests.swift */,
+			);
+			path = MemorizeTests;
+			sourceTree = "<group>";
+		};
+		D80000000000000000000009 /* MemorizeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E80000000000000000000026 /* AnimationFlowUITests.swift */,
+				E80000000000000000000027 /* GameFlowUITests.swift */,
+			);
+			path = MemorizeUITests;
+			sourceTree = "<group>";
+		};
+		D80000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D80000000000000000000013 /* Memorize.app */,
+				D80000000000000000000014 /* MemorizeTests.xctest */,
+				D80000000000000000000015 /* MemorizeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D80000000000000000000010 /* Memorize */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D80000000000000000000017;
+			buildPhases = (
+				D80000000000000000000028 /* Sources */,
+				D80000000000000000000029 /* Frameworks */,
+				D80000000000000000000030 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Memorize;
+			productName = Memorize;
+			productReference = D80000000000000000000013 /* Memorize.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D80000000000000000000011 /* MemorizeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D80000000000000000000018;
+			buildPhases = (
+				D80000000000000000000031 /* Sources */,
+				D80000000000000000000032 /* Frameworks */,
+				D80000000000000000000033 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D80000000000000000000038 /* PBXTargetDependency */,
+			);
+			name = MemorizeTests;
+			productName = MemorizeTests;
+			productReference = D80000000000000000000014 /* MemorizeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D80000000000000000000012 /* MemorizeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D80000000000000000000019;
+			buildPhases = (
+				D80000000000000000000034 /* Sources */,
+				D80000000000000000000035 /* Frameworks */,
+				D80000000000000000000036 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D80000000000000000000040 /* PBXTargetDependency */,
+			);
+			name = MemorizeUITests;
+			productName = MemorizeUITests;
+			productReference = D80000000000000000000015 /* MemorizeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D80000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					D80000000000000000000010 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					D80000000000000000000011 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = D80000000000000000000010;
+					};
+					D80000000000000000000012 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = D80000000000000000000010;
+					};
+				};
+			};
+			buildConfigurationList = D80000000000000000000016 /* Build configuration list for PBXProject "Memorize" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D80000000000000000000002;
+			productRefGroup = D80000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D80000000000000000000010 /* Memorize */,
+				D80000000000000000000011 /* MemorizeTests */,
+				D80000000000000000000012 /* MemorizeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D80000000000000000000030 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+/* Begin PBXResourcesBuildPhase section */
+		D80000000000000000000033 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+/* Begin PBXResourcesBuildPhase section */
+		D80000000000000000000036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D80000000000000000000028 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B80000000000000000000001 /* MemorizeApp.swift in Sources */,
+				B80000000000000000000002 /* Card.swift in Sources */,
+				B80000000000000000000003 /* Game.swift in Sources */,
+				B80000000000000000000004 /* Theme.swift in Sources */,
+				B80000000000000000000005 /* CountdownClock.swift in Sources */,
+				B80000000000000000000006 /* GameAnimationCoordinator.swift in Sources */,
+				B80000000000000000000007 /* GameViewModel.swift in Sources */,
+				B80000000000000000000008 /* MismatchTimerScheduling.swift in Sources */,
+				B80000000000000000000009 /* AnimationTiming.swift in Sources */,
+				B80000000000000000000010 /* AspectVGrid.swift in Sources */,
+				B80000000000000000000011 /* CardView.swift in Sources */,
+				B80000000000000000000012 /* Cardify.swift in Sources */,
+				B80000000000000000000013 /* GameView.swift in Sources */,
+				B80000000000000000000014 /* Pie.swift in Sources */,
+				B80000000000000000000015 /* ThemeButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXSourcesBuildPhase section */
+		D80000000000000000000031 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B80000000000000000000016 /* AnimationIntegrationTests.swift in Sources */,
+				B80000000000000000000017 /* AnimationTimingTests.swift in Sources */,
+				B80000000000000000000018 /* AspectVGridTests.swift in Sources */,
+				B80000000000000000000019 /* CardifyStyleTests.swift in Sources */,
+				B80000000000000000000020 /* CountdownIntegrationTests.swift in Sources */,
+				B80000000000000000000021 /* GameAnimationCoordinatorTests.swift in Sources */,
+				B80000000000000000000022 /* GameModelTests.swift in Sources */,
+				B80000000000000000000023 /* GameViewModelTests.swift in Sources */,
+				B80000000000000000000024 /* MismatchTimerTests.swift in Sources */,
+				B80000000000000000000025 /* PieGeometryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXSourcesBuildPhase section */
+		D80000000000000000000034 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B80000000000000000000026 /* AnimationFlowUITests.swift in Sources */,
+				B80000000000000000000027 /* GameFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		D80000000000000000000037 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D80000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D80000000000000000000010;
+			remoteInfo = Memorize;
+		};
+		D80000000000000000000039 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D80000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D80000000000000000000010;
+			remoteInfo = Memorize;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		D80000000000000000000038 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D80000000000000000000010 /* Memorize */;
+			targetProxy = D80000000000000000000037 /* PBXContainerItemProxy */;
+		};
+		D80000000000000000000040 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D80000000000000000000010 /* Memorize */;
+			targetProxy = D80000000000000000000039 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D80000000000000000000020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D80000000000000000000021 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D80000000000000000000022 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suxinzhong.memorize;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D80000000000000000000023 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suxinzhong.memorize;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D80000000000000000000024 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suxinzhong.memorizeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Memorize.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Memorize";
+			};
+			name = Debug;
+		};
+		D80000000000000000000025 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suxinzhong.memorizeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Memorize.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Memorize";
+			};
+			name = Release;
+		};
+		D80000000000000000000026 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suxinzhong.memorizeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Memorize;
+			};
+			name = Debug;
+		};
+		D80000000000000000000027 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suxinzhong.memorizeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Memorize;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D80000000000000000000016 /* Build configuration list for PBXProject "Memorize" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D80000000000000000000020 /* Debug */,
+				D80000000000000000000021 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D80000000000000000000017 /* Build configuration list for PBXNativeTarget "Memorize" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D80000000000000000000022 /* Debug */,
+				D80000000000000000000023 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D80000000000000000000018 /* Build configuration list for PBXNativeTarget "MemorizeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D80000000000000000000024 /* Debug */,
+				D80000000000000000000025 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D80000000000000000000019 /* Build configuration list for PBXNativeTarget "MemorizeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D80000000000000000000026 /* Debug */,
+				D80000000000000000000027 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D80000000000000000000001 /* Project object */;
+}
