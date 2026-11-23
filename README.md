@@ -1,5 +1,7 @@
 # Memorize · 记忆翻牌游戏（iOS / SwiftUI + Windows 网页端）
 
+[![Node 回归测试](https://github.com/LoveforFS/Memorize/actions/workflows/node-tests.yml/badge.svg)](https://github.com/LoveforFS/Memorize/actions/workflows/node-tests.yml)
+
 同一个游戏的两份实现：iOS 端用 SwiftUI + MVVM，Windows 端用原生 HTML / CSS / JavaScript 等价重写。iOS 端配套 185 个自动化测试（167 个单元测试 + 18 个界面流程测试），Windows 端配套 108 条 Node 回归测试。
 
 > **项目背景**：本项目为《综合应用开发项目实训》选题，原型是 Stanford CS193p 课程中的 Memorize 卡牌游戏。在原型基础上补齐了主题牌组、难度体系、倒计时、暂停恢复与设置持久化，并把自动化测试写完整。
