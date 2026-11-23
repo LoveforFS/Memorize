@@ -1,16 +1,18 @@
-# Memorize 原生验收（macOS runner）
-# 用途：在没有 Mac 的情况下，用 GitHub 托管的 macOS 机器执行真实的 xcodebuild test，
-#       产出 P0-1 所需的 .xcresult 与终端日志。不替代人工录屏（P0-2）。
-# 触发：手动（Actions → Run workflow）或推送到 day8 时自动。
-# 注意：本文件不会被本地任何脚本执行，也不会自动提交；需要你推送仓库后才会运行。
-
-name: macOS 原生验收
+# Memorize 原生测试（macOS runner）
+# 用途：在 GitHub 托管的 macOS 机器上执行真实的 xcodebuild test，验证单元测试与界面流程测试。
+# 触发：手动（Actions → Run workflow）或推送到 master 且改动涉及工程文件时自动。
+name: macOS 原生测试
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
     paths:
-      - 'day8/**'
+      - 'Memorize/**'
+      - 'MemorizeTests/**'
+      - 'MemorizeUITests/**'
+      - 'Memorize.xcodeproj/**'
       - '.github/workflows/macos-native-test.yml'
 
 permissions:
@@ -18,7 +20,7 @@ permissions:
 
 jobs:
   native-test:
-    name: 原生 132 条（iOS 模拟器）
+    name: xcodebuild test（iOS 模拟器）
     runs-on: macos-14
     timeout-minutes: 45
 
@@ -32,8 +34,6 @@ jobs:
           sw_vers
           xcodebuild -version
           echo "iOS SDK: $(xcrun --sdk iphonesimulator --show-sdk-version)"
-          echo "Python: $(python3 --version)"
-          sysctl -n hw.model || true
 
       - name: 选择可用 iPhone 模拟器
         id: pick
@@ -50,38 +50,23 @@ jobs:
           echo "选中机型：$DEV"
           echo "device=$DEV" >> "$GITHUB_OUTPUT"
 
-      - name: 工程结构自检（3 Target + 共享 Scheme）
+      - name: 工程结构自检
         run: |
           set -euo pipefail
-          xcodebuild -list -project day8/Memorize.xcodeproj | tee xcodebuild-list.log
-
-      - name: 等价回归（Python，132 条）
-        run: |
-          set -euo pipefail
-          python3 day8/WinTestHarness/run_tests.py | tee equitest.log
-          python3 - <<'PY'
-          import json
-          d = json.load(open('day8/WinTestHarness/test_results.json', encoding='utf-8'))
-          s = d.get('summary', {})
-          assert s.get('total') == 132, s
-          assert s.get('failed') == 0, s
-          assert s.get('skipped') == 0, s
-          assert d.get('coverage', {}).get('ok') is True, '映射校验未通过'
-          print('等价回归判定：132/0/0，映射校验 ok')
-          PY
+          xcodebuild -list -project Memorize.xcodeproj | tee xcodebuild-list.log
 
       - name: 原生全量测试（xcodebuild test）
         run: |
           set -o pipefail
           xcodebuild test \
-            -project day8/Memorize.xcodeproj \
+            -project Memorize.xcodeproj \
             -scheme Memorize \
             -destination "platform=iOS Simulator,name=${{ steps.pick.outputs.device }},OS=latest" \
             -resultBundlePath TestResults.xcresult \
             -derivedDataPath "$RUNNER_TEMP/dd" \
             2>&1 | tee xcodebuild-test.log
 
-      - name: 结果解析与判定
+      - name: 结果汇总
         if: always()
         run: |
           echo "==== 各 bundle 汇总 ===="
@@ -89,14 +74,14 @@ jobs:
           echo "==== 状态标记 ===="
           grep -E '\*\* TEST (SUCCEEDED|FAILED) \*\*' xcodebuild-test.log || echo "未找到状态标记"
           {
-            echo "### 原生验收结果"
+            echo "### 原生测试结果"
             echo '```'
             grep -E 'Executed [0-9]+ tests?, with' xcodebuild-test.log | tail -6 || true
             grep -E '\*\* TEST (SUCCEEDED|FAILED) \*\*' xcodebuild-test.log || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: 上传证据
+      - name: 上传日志与结果包
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -106,5 +91,4 @@ jobs:
           path: |
             xcodebuild-test.log
             xcodebuild-list.log
-            equitest.log
             TestResults.xcresult
