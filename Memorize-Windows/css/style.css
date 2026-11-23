@@ -1,0 +1,1986 @@
+/*
+ * Memorize 样式表。
+ *
+ * 配色与几何量全部对照 day8/Memorize/Views/ 下的 SwiftUI 实现：
+ * - 背景为 systemGroupedBackground；
+ * - 卡片正面 systemBackground、背面 accentColor、配对后绿色描边；
+ * - 圆角、描边、内边距、阴影按短边比例并由 clamp 约束（对应 CardStyle）。
+ *
+ * 深色模式用同一套变量换值，不另写一套选择器：SwiftUI 的语义色本就随
+ * 系统外观自动切换，这里用 prefers-color-scheme 对齐该行为。
+ */
+
+:root {
+  --accent: #007aff;
+  /* 需要白字压在上面时用它（#007aff 上白字只有 4.0:1） */
+  --accent-strong: #0068d9;
+  --matched: #34c759;
+  --bg: #f2f2f7;
+  --card-front: #ffffff;
+  --card-matched: #fdfffd;
+  --label: #1c1c1e;
+  /* 原为 iOS secondaryLabel #8e8e93，在 #f2f2f7 上只有 2.9:1，加深后约 4.8:1 */
+  --secondary-label: #6a6a70;
+  --danger: #ff3b30;
+  --warning: #ff9500;
+  --theme-bg: #ffffff;
+  --surface: #ffffff;
+  --hairline: rgba(0, 0, 0, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.12);
+  --modal-backdrop: rgba(0, 0, 0, 0.28);
+  --pause-backdrop: rgba(242, 242, 247, 0.66);
+  --tip-bg: rgba(28, 28, 30, 0.92);
+  --tip-fg: #ffffff;
+  /* 卡片外缘：浅色下不需要（白卡自带边界），深色下用来把卡片从纯黑底上拎出来 */
+  --card-edge: transparent;
+  --chip-bg: rgba(120, 120, 128, 0.12);
+
+  /* 由脚本按卡片尺寸写入的几何量，这里给出与 CardStyle 一致的兜底值 */
+  --card-w: 96px;
+  --card-radius: 12px;
+  --card-border: 1.5px;
+  --card-pad: 6px;
+  --card-shadow: 3px;
+}
+
+/*
+ * 深色配色有两份完全相同的数值，因为 CSS 不能把 @media 与属性选择器
+ * 合并进同一条规则。改动时两处必须同步：
+ *   1. 系统处于深色（且玩家没有手动指定浅色）；
+ *   2. <html data-theme="dark">（URL 带 ?theme=dark 时由脚本写入，用于验收截图）。
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #000000;
+    --accent-strong: #0068d9;
+    --card-front: #1c1c1e;
+    --card-matched: #12261a;
+    --label: #f2f2f7;
+    --secondary-label: #98989f;
+    --theme-bg: #1c1c1e;
+    --surface: #1c1c1e;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --shadow-color: rgba(0, 0, 0, 0.55);
+    --modal-backdrop: rgba(0, 0, 0, 0.6);
+    --pause-backdrop: rgba(0, 0, 0, 0.58);
+    --tip-bg: rgba(242, 242, 247, 0.94);
+    --tip-fg: #1c1c1e;
+    /* 深色底上纯黑卡片会与背景融为一体，补一条极淡的描边把边界找回来 */
+    --card-edge: rgba(255, 255, 255, 0.09);
+    --chip-bg: rgba(120, 120, 128, 0.24);
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #000000;
+  --accent-strong: #0068d9;
+  --card-front: #1c1c1e;
+  --card-matched: #12261a;
+  --label: #f2f2f7;
+  --secondary-label: #98989f;
+  --theme-bg: #1c1c1e;
+  --surface: #1c1c1e;
+  --hairline: rgba(255, 255, 255, 0.14);
+  --shadow-color: rgba(0, 0, 0, 0.55);
+  --modal-backdrop: rgba(0, 0, 0, 0.6);
+  --pause-backdrop: rgba(0, 0, 0, 0.58);
+  --tip-bg: rgba(242, 242, 247, 0.94);
+  --tip-fg: #1c1c1e;
+  --card-edge: rgba(255, 255, 255, 0.09);
+  --chip-bg: rgba(120, 120, 128, 0.24);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--label);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei",
+    "PingFang SC", "Hiragino Sans GB", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* 极矮窗口时允许滚动，避免卡片区被直接裁掉 */
+  overflow: auto;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* 与 min-height 配合：窗口过矮时页面滚动，而不是把卡片压到不可用 */
+  min-height: 420px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 10px 16px 8px;
+}
+
+/*
+ * 主界面由内容撑高、牌局锁定 100% 高度。
+ *
+ * 为什么分开：牌局必须锁死视口高度，棋盘才会按可用空间算卡片尺寸；
+ * 而主界面一旦锁死，新增「最近 5 局」后内容比容器高 2px，就会冒出
+ * 一条几乎看不出、但实测存在的页面滚动条（scrollHeight 570 / clientHeight 568）。
+ * 用 :has 判断「牌局隐藏 = 当前在主界面」，不额外引入 JS 状态类。
+ * 不支持 :has 的旧浏览器会退回上面的 height: 100%，只是多 2px 滚动。
+ */
+.app:has(> .game[hidden]) {
+  height: auto;
+  min-height: max(100%, 420px);
+  /*
+   * 内容比容器矮时不会有东西被裁掉：实测 320×568 下最后一个元素底边在 539，
+   * 视口 568，被裁掉的只是下方的空白。加 overflow 是为了消掉那条
+   * 由 4px 行盒余量引起的、几乎看不见但确实存在的页面滚动条。
+   */
+  overflow: hidden;
+}
+
+/*
+ * 主界面与游戏界面是同一容器下的两个互斥视图：
+ * 只有隐藏切换，没有路由，也没有任何计时任务在切换时残留。
+ */
+.home {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px 20px;
+  animation: homeFade 0.32s ease-out;
+}
+
+.home[hidden] {
+  display: none;
+}
+
+.game {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  /* 允许棋盘在 flex 布局中被压缩，否则卡片区会顶出视口 */
+  min-height: 0;
+}
+
+.game[hidden] {
+  display: none;
+}
+
+@keyframes homeFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------- 主界面内容 ---------------- */
+
+.home-inner {
+  width: min(430px, 100%);
+  text-align: center;
+}
+
+/* 装饰牌堆：三张卡片，中间一张正面，用当前主题的第一个图案 */
+.home-deck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  margin-bottom: 12px;
+}
+
+.deck-card {
+  width: 56px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  background: var(--accent);
+  box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.deck-card--back {
+  opacity: 0.9;
+}
+
+.deck-card--left {
+  transform: rotate(-13deg) translateX(9px);
+}
+
+.deck-card--right {
+  transform: rotate(13deg) translateX(-9px);
+}
+
+.deck-card--front {
+  position: relative;
+  z-index: 2;
+  background: var(--card-front);
+  color: var(--label);
+  font-size: 28px;
+  line-height: 1;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  transform: translateY(-4px) rotate(-1.5deg);
+}
+
+.home-eyebrow {
+  margin: 0 0 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.home-title {
+  margin: 0;
+  font-size: clamp(38px, 11vw, 56px);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: var(--label);
+}
+
+/* 支持时用渐变文字；不支持则保持上面的纯色，不会出现透明字 */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .home-title {
+    background: linear-gradient(135deg, var(--accent) 0%, #5ac8fa 58%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.home-tagline {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--secondary-label);
+}
+
+/* ---------------- 主界面：模式 / 难度 / 最高分 ---------------- */
+
+/*
+ * 模式切换做成胶囊分段控件：两个选项并排，选中项用白底浮起。
+ * 用按钮而不是下拉框，是因为选项只有两个，展开下拉反而多一次点击。
+ */
+.mode-switch {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  margin: 16px auto 8px;
+  padding: 4px;
+  border-radius: 13px;
+  background: rgba(120, 120, 128, 0.14);
+}
+
+.mode-tab {
+  min-width: 78px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--secondary-label);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mode-tab:hover {
+  color: var(--label);
+}
+
+.mode-tab.is-selected {
+  background: var(--surface);
+  color: var(--label);
+  box-shadow: 0 1px 4px var(--shadow-color);
+}
+
+.mode-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.difficulty-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 0 4px;
+}
+
+/* 闯关模式的关卡写死在配置里，难度档位对它不生效，整行隐藏 */
+.difficulty-row[hidden] {
+  display: none;
+}
+
+.chip {
+  padding: 5px 13px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--secondary-label);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip:hover {
+  color: var(--label);
+  border-color: var(--secondary-label);
+}
+
+.chip.is-selected {
+  border-color: var(--accent);
+  background: rgba(0, 122, 255, 0.12);
+  /*
+   * 文字不再用 accent：#007aff 在 12% 蓝底上只有 3.6:1，低于小字号所需的 4.5:1。
+   * 选中状态已由边框与底色表达，文字回归主色反而更清楚。
+   */
+  color: var(--label);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.home-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 14px;
+}
+
+.best-badge {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--secondary-label);
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+}
+
+.best-badge.is-empty {
+  opacity: 0.75;
+}
+
+.sound-toggle {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--chip-bg);
+  color: var(--secondary-label);
+  cursor: pointer;
+  transition: background 0.16s ease, transform 0.12s ease, color 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sound-toggle svg {
+  display: block;
+  width: 15px;
+  height: 15px;
+}
+
+.sound-toggle .sound-off {
+  display: none;
+}
+
+.sound-toggle.is-off {
+  color: var(--secondary-label);
+  opacity: 0.6;
+}
+
+.sound-toggle.is-off .sound-on {
+  display: none;
+}
+
+.sound-toggle.is-off .sound-off {
+  display: block;
+}
+
+.sound-toggle:hover {
+  background: rgba(120, 120, 128, 0.2);
+  color: var(--label);
+}
+
+.sound-toggle:active {
+  transform: scale(0.92);
+}
+
+.sound-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.home-rules {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 16px;
+  padding: 0;
+  text-align: left;
+}
+
+.home-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--secondary-label);
+}
+
+.rule-index {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(0, 122, 255, 0.13);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.rule-text b {
+  color: var(--label);
+  font-weight: 600;
+}
+
+.start-button {
+  width: min(300px, 100%);
+  padding: 15px 24px;
+  border: 0;
+  border-radius: 999px;
+  /* 纯 #007aff 上白字只有 4.0:1；加深后约 5.3:1，视觉上仍是同一个蓝 */
+  background: var(--accent-strong);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 8px 22px rgba(0, 122, 255, 0.34);
+  transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.16s ease;
+}
+
+.start-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 122, 255, 0.42);
+  filter: brightness(1.05);
+}
+
+.start-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 6px 16px rgba(0, 122, 255, 0.32);
+}
+
+.start-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.home-note {
+  margin: 12px 0 0;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--secondary-label);
+}
+
+/* ---------------- 顶部：标题 / 倒计时 / 得分 ---------------- */
+
+.topbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.title-group {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+/* 主题名 + 配对进度：一行副信息，替代原来只显示主题名 */
+.sub-info {
+  margin: 3px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--secondary-label);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sub-sep {
+  opacity: 0.45;
+}
+
+/* 闯关关卡：用主题色标出来，与主题名区分开 */
+.sub-level {
+  color: var(--accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.sub-progress {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 环形倒计时 */
+.pie {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pie:hover {
+  transform: scale(1.07);
+}
+
+.pie:active {
+  transform: scale(0.95);
+}
+
+.pie:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/*
+ * 可发现性：环形本身是可点击的暂停/继续开关，但界面上没有任何提示。
+ * 用 hover 气泡在鼠标移入时说明用途，避免只有「点到才发现」。
+ */
+.pie::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  z-index: 6;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -3px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  pointer-events: none;
+}
+
+.pie:hover::after,
+.pie:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.pie.is-idle {
+  opacity: 0.35;
+}
+
+/* 暂停时环形压暗一档：即使不看遮罩，也能从顶部读出「表停了」 */
+.pie.is-paused {
+  opacity: 0.7;
+}
+
+.pie-svg {
+  display: block;
+  width: 44px;
+  height: 44px;
+  transform: rotate(-90deg);
+}
+
+.pie-track {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.18;
+  stroke-width: 4.4;
+}
+
+.pie-progress {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 4.4;
+  stroke-linecap: round;
+  /* 圆的周长 = 2πr，r = 19.8 → 124.4 */
+  stroke-dasharray: 124.4;
+  stroke-dashoffset: 0;
+  /* 与原版一致：每秒线性推进一段，而不是跳变 */
+  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+}
+
+.pie {
+  color: var(--accent);
+}
+
+.pie.is-warning {
+  color: var(--danger);
+}
+
+.pie-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--label);
+  pointer-events: none;
+}
+
+.pie.is-warning .pie-text {
+  color: var(--danger);
+}
+
+/* 得分区 */
+.score-group {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 56px;
+}
+
+.score-caption {
+  font-size: 11px;
+  color: var(--secondary-label);
+  line-height: 1.2;
+}
+
+.score-value {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  transform-origin: right center;
+}
+
+.score-value.is-negative {
+  color: var(--danger);
+}
+
+.score-value.is-popping {
+  animation: scorePop 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes scorePop {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/*
+ * 得分变化量浮标：+2 / -1，短暂浮现后消失。
+ * 位置从「数字左侧」改到「数字下方」——得分区在最右侧，左侧 60~80px
+ * 正是环形倒计时的占位，向左飘会盖住倒计时，向下方飘则不冲突。
+ */
+.score-delta {
+  position: absolute;
+  right: 4px;
+  top: calc(100% - 2px);
+  z-index: 5;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.7);
+  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.score-delta.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.score-delta.is-positive {
+  color: var(--matched);
+}
+
+.score-delta.is-negative {
+  color: var(--danger);
+}
+
+/* ---------------- 主题选择 ---------------- */
+
+.theme-bar {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+  padding: 8px 0 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  transition: opacity 0.2s ease;
+}
+
+.theme-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.theme-bar.is-locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.theme-button {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 7px 12px 8px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--theme-bg);
+  color: var(--label);
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease,
+    transform 0.15s ease, box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-button:hover {
+  border-color: var(--hairline);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.theme-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.theme-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 选中态：主题色边框由脚本内联写入，这里补上阴影与加粗，避免白底上看不出选中 */
+.theme-button.is-selected {
+  box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.theme-button.is-selected .theme-name {
+  font-weight: 700;
+}
+
+.theme-emoji {
+  font-size: 18px;
+  line-height: 1.1;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.theme-name {
+  font-size: 11px;
+}
+
+/* ---------------- 提示行 + 重开入口 ---------------- */
+
+.hint-row {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  margin: 2px 0 4px;
+  /* 右侧留出三个图标按钮的宽度（28×3 + 间隙），避免长文案压到按钮 */
+  padding: 0 94px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  /* 由固定 height 改为随内容伸缩，窄屏换行时不会被裁切 */
+  line-height: 1.45;
+  text-align: center;
+  color: var(--secondary-label);
+  transition: color 0.2s ease;
+}
+
+.hint.is-locked {
+  color: var(--warning);
+}
+
+.hint.is-paused {
+  color: var(--accent);
+}
+
+.hint.is-finished {
+  color: var(--danger);
+}
+
+/* 结算弹窗被 Esc 关闭后，提示行变成「再来一局」的入口，避免无路可走 */
+.hint.is-actionable {
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 用透明度做悬停态而不是固定深蓝：这个颜色的对比度只在浅色底上成立，
+   深色模式下会变得难读 */
+.hint.is-actionable:hover {
+  opacity: 0.72;
+}
+
+.hint.is-actionable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.hint-actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  transform: translateY(-50%);
+}
+
+/* 返回主界面 / 重开本局共用同一套图标按钮样式 */
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--secondary-label);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.icon-button svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+/*
+ * 暂停按钮内部叠了两个图标：暂停时显示三角（表示「继续」），
+ * 运行中显示双竖线。用 CSS 切换显示，避免脚本反复改 SVG 内容。
+ */
+.icon-button .glyph-play {
+  display: none;
+}
+
+.icon-button.is-paused {
+  color: var(--accent);
+  background: rgba(0, 122, 255, 0.12);
+}
+
+.icon-button.is-paused .glyph-pause {
+  display: none;
+}
+
+.icon-button.is-paused .glyph-play {
+  display: block;
+}
+
+/* 暂停时整局静音，也让棋盘停止播放发牌动画 */
+.game.is-paused .card {
+  animation-play-state: paused;
+}
+
+.game.is-paused .card:not(.is-matched):hover {
+  transform: none;
+}
+
+.icon-button:hover {
+  color: var(--accent);
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.icon-button:active {
+  transform: scale(0.9);
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.restart svg {
+  transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.restart:hover svg {
+  transform: rotate(-140deg);
+}
+
+/* ---------------- 卡片区 ---------------- */
+
+/*
+ * 棋盘外层：唯一作用是给暂停层与提示气泡提供定位基准。
+ * 暂停层只盖住牌面区域，顶部计时与得分仍然可见，
+ * 玩家能亲眼看到「时间停在原处」，而不是被整屏遮罩糊住。
+ */
+.board-area {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+.board {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  justify-content: center;
+  /* 原为 start：卡片贴顶，大窗口下半屏空着。居中后卡组成为视觉主体 */
+  align-content: center;
+  /*
+   * 缝隙交给 Grid 绘制，值由脚本按卡片宽度算出后写入：
+   * 卡片本身铺满单元格，相邻卡片之间只有这一道缝，既不会重叠，
+   * 也不会像「子元素内缩」那样把缝隙宽度翻倍或按固定值失真。
+   */
+  gap: var(--card-gap, 4px);
+}
+
+.card {
+  position: relative;
+  width: var(--card-w);
+  height: calc(var(--card-w) * 1.5);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 550px;          /* 对应 Swift rotation3DEffect 的 perspective 0.55 */
+  -webkit-tap-highlight-color: transparent;
+  /*
+   * 用 backwards 而非 both：both 会在动画结束后继续保留终态 transform: none，
+   * 而 CSS 动画的优先级高于普通声明，会压住下面 :hover / :active 的位移。
+   * backwards 只在动画延迟期间套用起始帧，结束后交还给普通样式。
+   */
+  animation: dealIn 0.35s ease-out backwards;
+  /* 让相邻卡片的投影不互相压盖 */
+  isolation: isolate;
+  transition: transform 0.16s ease;
+  /* 长按偷看期间不要弹出文字选择/系统菜单，否则会打断计时 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 未配对的卡片给足「可点击」暗示：悬停上浮、按下回弹 */
+.card:not(.is-matched):hover {
+  transform: translateY(-3px);
+}
+
+.card:not(.is-matched):active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* 已配对的卡片点不动，光标也应当说明这一点 */
+.card.is-matched {
+  cursor: default;
+}
+
+/* 锁定期间的点击反馈：轻微抖动，明确告知「正在等待」，而不是没反应 */
+.card.is-rejected {
+  animation: cardReject 0.3s ease-in-out;
+}
+
+@keyframes cardReject {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-4px); }
+  35% { transform: translateX(4px); }
+  55% { transform: translateX(-3px); }
+  75% { transform: translateX(2px); }
+}
+
+@keyframes dealIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card-inner {
+  /*
+   * 铺满整个单元格即可：卡片之间的缝隙由 .board 的 gap 提供。
+   * 原实现用 inset: 2px 制造缝隙，实际相邻间距是 4px（每边各 2px），
+   * 且小卡片上占比过大、大卡片上几乎看不见，已废弃。
+   */
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.45s ease-in-out;   /* 对应 AnimationTiming.flipDuration */
+  transform: rotateY(180deg);
+}
+
+.card.is-face-up .card-inner {
+  transform: rotateY(0deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--card-radius);
+  border: var(--card-border) solid var(--accent);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* 内侧 1px 的 --card-edge 在浅色下透明、深色下才生效，用来把卡片从纯黑底上分离出来 */
+  box-shadow: 0 0 0 1px var(--card-edge),
+    0 var(--card-shadow) var(--card-shadow) var(--shadow-color);
+  transition: border-color 0.25s ease;
+}
+
+.card-front {
+  background: var(--card-front);
+  padding: var(--card-pad);
+  /*
+   * 上限从 36px 提到 52px：121px 宽的卡片上 36px 只占三成，
+   * 图形显得小而空。放大后同类图形在余光里也能分辨。
+   */
+  font-size: clamp(15px, calc(var(--card-w) * 0.56), 52px);
+  line-height: 1;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.card-back {
+  background: var(--accent);
+  color: #ffffff;
+  font-size: clamp(12px, calc(var(--card-w) * 0.34), 22px);
+  font-weight: 700;
+  transform: rotateY(180deg);
+}
+
+/* 悬停时背面轻微提亮，强化「这张能点」的即时感 */
+.card:not(.is-matched):not(.is-face-up):hover .card-back {
+  filter: brightness(1.07);
+}
+
+.card.is-matched .card-front {
+  border-color: var(--matched);
+  background: var(--card-matched);
+}
+
+/* 焦点环放在卡片本身上：.card-face 有 backface-visibility，
+   翻转过程中在其上加 outline 会随面一起消失 */
+.card:focus-visible {
+  outline: 2px solid rgba(0, 122, 255, 0.65);
+  outline-offset: 2px;
+  border-radius: var(--card-radius);
+}
+
+/*
+ * 刚配对成功的卡片弹一下。
+ * 发牌时每张卡都带 inline 的 animation-delay，直接加动画会被延迟几百毫秒，
+ * 因此定时器类在脚本里会把 animationDelay 归零，动画才会立刻播。
+ */
+.card.is-just-matched {
+  animation: matchedPop 0.42s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes matchedPop {
+  0% { transform: scale(1); }
+  36% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+/* ---------------- 过关提示气泡 ---------------- */
+
+.toast {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  z-index: 7;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  transform: translate(-50%, -8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.toast[hidden] {
+  display: none;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------------- 暂停层 ---------------- */
+
+.pause-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: var(--pause-backdrop);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.16s ease-out;
+}
+
+.pause-layer[hidden] {
+  display: none;
+}
+
+.pause-card {
+  width: min(286px, 100%);
+  padding: 20px 18px 12px;
+  border-radius: 16px;
+  background: var(--surface);
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  animation: modalIn 0.18s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.pause-glyph {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--accent);
+}
+
+.pause-glyph svg {
+  width: 22px;
+  height: 22px;
+}
+
+.pause-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.pause-desc {
+  margin: 0 0 16px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--secondary-label);
+}
+
+.pause-primary {
+  width: 100%;
+  padding: 11px 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.12s ease;
+}
+
+.pause-primary:hover {
+  filter: brightness(1.06);
+}
+
+.pause-primary:active {
+  transform: scale(0.98);
+}
+
+.pause-primary:focus-visible {
+  outline: 2px solid var(--label);
+  outline-offset: 2px;
+}
+
+.pause-link {
+  margin-top: 4px;
+  padding: 9px 0;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--secondary-label);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.pause-link:hover {
+  color: var(--label);
+  background: var(--chip-bg);
+}
+
+.pause-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------------- 结算弹窗 ---------------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: var(--modal-backdrop);
+  /* 背景虚化：结算时把棋盘推远，注意力落到结果上 */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.16s ease-out;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  width: min(320px, 84vw);
+  padding: 22px 20px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+  animation: modalIn 0.2s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.modal-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-body {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--secondary-label);
+}
+
+.modal-button {
+  width: 100%;
+  padding: 11px 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.modal-button:hover {
+  filter: brightness(1.06);
+}
+
+.modal-button:active {
+  filter: brightness(0.94);
+}
+
+.modal-button:focus-visible {
+  outline: 2px solid var(--label);
+  outline-offset: 2px;
+}
+
+/* 新纪录徽标：结算里最值得被看见的一行，用主题色小胶囊标出来 */
+.modal-record {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(52, 199, 89, 0.15);
+  color: var(--matched);
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.modal-record[hidden] {
+  display: none;
+}
+
+.modal-link {
+  width: 100%;
+  margin-top: 4px;
+  padding: 9px 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--secondary-label);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.modal-link:hover {
+  color: var(--label);
+  background: var(--chip-bg);
+}
+
+.modal-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ================= 连击 / 偷看 / 最近 5 局 / 自适应 ================= */
+
+/*
+ * 连击指示直接复用得分区的小标题：不新增布局位，窄屏也不会多挤一行。
+ * 位置正好在分数正上方，玩家看分数时自然能看到倍率。
+ */
+.score-caption {
+  display: inline-block;
+  transform-origin: right center;
+  transition: color 0.18s ease;
+}
+
+.score-caption.is-combo {
+  color: var(--warning);
+  font-weight: 700;
+}
+
+.score-caption.is-popping {
+  animation: comboPop 0.34s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes comboPop {
+  0% { transform: scale(1); }
+  42% { transform: scale(1.16); }
+  100% { transform: scale(1); }
+}
+
+/*
+ * 偷看次数：绝对定位在提示行左侧的既有留白里（该处本来就为空），
+ * 因此不会压缩中部提示文字的宽度。
+ */
+.peek-hud {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--secondary-label);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.peek-hud svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.peek-hud.is-empty {
+  opacity: 0.4;
+}
+
+/* 次数用尽还去长按：晃一下说明「不是没反应，是用完了」 */
+.peek-hud.is-denied {
+  animation: peekDeny 0.34s ease-in-out;
+}
+
+@keyframes peekDeny {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  25% { transform: translateY(-50%) translateX(-3px); }
+  60% { transform: translateY(-50%) translateX(3px); }
+}
+
+/*
+ * 偷看展示：把正面转出来 0.4 秒，但用虚线橙框 + 外发光与「真翻开」区分开，
+ * 让玩家一眼看出这是「借看一眼」，不是已经翻开进了判定。
+ */
+.card.is-peeking .card-inner {
+  transform: rotateY(0deg);
+  transition: transform 0.16s ease-out;
+}
+
+.card.is-peeking .card-front {
+  border-style: dashed;
+  border-color: var(--warning);
+}
+
+.card.is-peeking::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  box-shadow: 0 0 0 2px rgba(255, 149, 0, 0.34);
+  pointer-events: none;
+}
+
+/* ---- 主界面：最近 5 局 ---- */
+
+.history {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 12px;
+}
+
+.history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.history-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--secondary-label);
+}
+
+.history-clear {
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--secondary-label);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.history-clear[hidden] {
+  display: none;
+}
+
+.history-clear:hover {
+  color: var(--danger);
+  background: var(--chip-bg);
+}
+
+.history-clear:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* 横排五格：窄屏时整体宽度刚好放下，不产生横向滚动 */
+.history-strip {
+  display: flex;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.history-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.history-chip {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 3px;
+  border-radius: 9px;
+  background: var(--chip-bg);
+  font-variant-numeric: tabular-nums;
+}
+
+.history-chip.is-win {
+  box-shadow: inset 0 0 0 1.5px rgba(52, 199, 89, 0.5);
+}
+
+.history-score {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.history-meta {
+  max-width: 100%;
+  font-size: 10px;
+  color: var(--secondary-label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-empty {
+  flex: 1 1 auto;
+  padding: 7px 0;
+  font-size: 11.5px;
+  text-align: center;
+  color: var(--secondary-label);
+  opacity: 0.8;
+}
+
+/* ---- 主界面：自适应说明 ---- */
+
+.adaptive-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--secondary-label);
+}
+
+.adaptive-note[hidden] {
+  display: none;
+}
+
+.adaptive-reset {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--secondary-label);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.adaptive-reset:hover {
+  color: var(--label);
+  background: rgba(120, 120, 128, 0.24);
+}
+
+.adaptive-reset:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ---- 震动开关（复用音效按钮的尺寸与悬停态）---- */
+
+.haptic-toggle .haptic-off {
+  display: none;
+}
+
+.haptic-toggle.is-off .haptic-on {
+  display: none;
+}
+
+.haptic-toggle.is-off .haptic-off {
+  display: block;
+}
+
+.haptic-toggle.is-unsupported {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.haptic-toggle.is-unsupported:hover {
+  background: var(--chip-bg);
+  color: var(--secondary-label);
+}
+
+/* ---------------- 窄屏适配 ---------------- */
+
+@media (max-width: 420px) {
+  .app {
+    padding: 8px 12px 6px;
+    min-height: 380px;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .pie,
+  .pie-svg {
+    width: 38px;
+    height: 38px;
+  }
+
+  .score-value {
+    font-size: 20px;
+  }
+
+  .hint-row {
+    padding: 0 84px;
+  }
+
+  .icon-button {
+    width: 26px;
+    height: 26px;
+  }
+
+  .icon-button svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* 主界面：牌堆与标题同步收小，规则文案保持不变，避免手机上要滚动才能看到按钮 */
+  .home {
+    /* 上下内边距各收 2/4px：新增「最近 5 局」后手机端正好多出 2px 滚动条 */
+    padding: 2px 2px 8px;
+  }
+
+  .home-deck {
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .deck-card {
+    width: 48px;
+    height: 72px;
+    border-radius: 10px;
+  }
+
+  .deck-card--front {
+    font-size: 24px;
+  }
+
+  .home-rule {
+    font-size: 12.5px;
+  }
+
+  .home-tagline {
+    font-size: 13px;
+  }
+
+  .mode-switch {
+    margin: 12px auto 7px;
+  }
+
+  .mode-tab {
+    min-width: 70px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+  }
+
+  .chip {
+    padding: 4px 11px;
+    font-size: 11.5px;
+  }
+
+  .home-meta {
+    margin: 10px 0 12px;
+  }
+
+  .best-badge {
+    font-size: 11.5px;
+  }
+
+  .home-rules {
+    margin: 12px 0 14px;
+    gap: 7px;
+  }
+
+  .start-button {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  /* 新增区块在窄屏统一缩一档字号，保证主界面仍然一屏放得下 */
+  .peek-hud {
+    gap: 2px;
+    padding: 1px 5px;
+    font-size: 10.5px;
+  }
+
+  .peek-hud svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .history {
+    margin-bottom: 10px;
+  }
+
+  .history-title,
+  .history-clear {
+    font-size: 10.5px;
+  }
+
+  .history-score {
+    font-size: 13px;
+  }
+
+  .history-meta {
+    font-size: 9.5px;
+  }
+
+  .adaptive-note {
+    font-size: 11px;
+  }
+
+  .home-note {
+    margin-top: 8px;
+  }
+}
+
+/*
+ * 极矮横屏（≤480px 高，例如手机横放 390px）：装饰与次要信息全部让位，
+ * 只保留标题、模式/难度、规则与开始按钮；允许少量滚动，
+ * 但「最近 5 局」这种回看型内容在横屏不展示是合理取舍。
+ */
+@media (max-height: 480px) {
+  /*
+   * 420px 的下限原本是给棋盘用的；在极矮横屏上它会直接顶出滚动条，
+   * 把开始按钮挤到首屏之外。主界面本身由内容撑高，这里放宽下限即可。
+   */
+  .app,
+  .app:has(> .game[hidden]) {
+    min-height: 300px;
+    /* 极矮横屏宁可让页面滚一点，也不能把开始按钮裁掉 */
+    overflow: visible;
+  }
+
+  .home-deck,
+  .home-eyebrow,
+  .history {
+    display: none;
+  }
+
+  .home-title {
+    font-size: 26px;
+  }
+
+  .home-tagline {
+    margin-top: 2px;
+    font-size: 12px;
+  }
+
+  .home-rules {
+    margin: 6px 0 8px;
+    gap: 3px;
+  }
+
+  .home-rule {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  /* 自适应说明属于「了解即可」的信息，极矮横屏直接不显示 */
+  .adaptive-note {
+    display: none;
+  }
+
+  .home-meta {
+    margin: 3px 0 5px;
+  }
+
+  .home-note {
+    display: none;
+  }
+
+  .start-button {
+    padding: 11px 18px;
+    font-size: 15px;
+  }
+}
+
+/*
+ * 矮窗口（含 1024×700 笔记本、横屏手机）：主界面优先保证「开始按钮」在首屏，
+ * 装饰牌堆与各处间距依次让位。这是本轮新增「最近 5 局」后必须补的一档，
+ * 否则 700px 以下的窗口主界面会多出 5px 左右的滚动条。
+ */
+@media (max-height: 720px) {
+  .home-deck {
+    display: none;
+  }
+
+  .home-rules {
+    margin: 8px 0 10px;
+    gap: 5px;
+  }
+
+  .home-rule {
+    font-size: 12.5px;
+  }
+
+  .home-tagline {
+    margin-top: 5px;
+    font-size: 13px;
+  }
+
+  .mode-switch {
+    margin: 8px auto 5px;
+  }
+
+  .difficulty-row {
+    margin-bottom: 2px;
+  }
+
+  .adaptive-note {
+    margin-top: 4px;
+  }
+
+  .home-meta {
+    margin: 6px 0 8px;
+  }
+
+  .history {
+    margin-bottom: 8px;
+  }
+
+  .history-chip {
+    padding: 4px 3px;
+  }
+
+  .home-note {
+    margin-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+    transition: none;
+  }
+
+  .home {
+    animation: none;
+  }
+
+  /* 去掉抖动，但保留即时颜色反馈，仍然能感知「点不动」 */
+  .card.is-rejected {
+    animation: none;
+    outline: 2px solid var(--warning);
+    outline-offset: 2px;
+  }
+
+  .card-inner,
+  .pie-progress,
+  .score-value.is-popping,
+  .restart svg {
+    transition: none;
+    animation: none;
+  }
+
+  /* 连击倍率、偷看次数用颜色/压暗表达，去掉放大与抖动也不丢信息 */
+  .score-caption.is-popping,
+  .peek-hud.is-denied,
+  .card.is-peeking .card-inner {
+    transition: none;
+    animation: none;
+  }
+
+  /* 去掉弹跳与遮罩淡入，但保留「已配对」的绿色描边，信息不丢 */
+  .card.is-just-matched,
+  .pause-layer,
+  .pause-card,
+  .toast,
+  .modal,
+  .modal-backdrop {
+    animation: none;
+    transition: none;
+  }
+
+  .pie:hover,
+  .card:not(.is-matched):hover,
+  .theme-button:hover,
+  .start-button:hover {
+    transform: none;
+  }
+}

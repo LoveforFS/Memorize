@@ -1,8 +1,21 @@
-# Memorize · 记忆翻牌游戏（iOS / SwiftUI）
+# Memorize · 记忆翻牌游戏（iOS / SwiftUI + Windows 网页端）
 
-一款 iOS 17 单机记忆配对游戏，SwiftUI + MVVM 实现，配套 185 个自动化测试（167 个单元测试 + 18 个界面流程测试）。
+同一个游戏的两份实现：iOS 端用 SwiftUI + MVVM，Windows 端用原生 HTML / CSS / JavaScript 等价重写。iOS 端配套 185 个自动化测试（167 个单元测试 + 18 个界面流程测试），Windows 端配套 108 条 Node 回归测试。
 
 > **项目背景**：本项目为《综合应用开发项目实训》选题，原型是 Stanford CS193p 课程中的 Memorize 卡牌游戏。在原型基础上补齐了主题牌组、难度体系、倒计时、暂停恢复与设置持久化，并把自动化测试写完整。
+
+## 平台与验证状态
+
+两端的运行条件与验证情况并不一样，这里如实标注：
+
+| | iOS 端（`Memorize/`） | Windows 端（`Memorize-Windows/`） |
+| --- | --- | --- |
+| 运行环境 | macOS + Xcode + iOS 17 模拟器 | 任意现代浏览器，双击 `index.html` 即可，零依赖 |
+| 开发机能否直接运行 | 否 —— 开发机是 Windows，不具备 Xcode | 是 |
+| 自动化测试 | XCTest 167 个 + XCUITest 18 个 | `node tests/run-tests.js`，108 条 |
+| 当前验证情况 | 代码按 Xcode 工程（App / 单元测试 / UI 测试三个 target）组织，构建与测试流程配置在 `macos-native-test.yml`；未在 macOS 环境实际编译过 | 108 条全部通过 |
+
+也就是说：**Windows 端是可以当场跑起来、且测试全绿的实现；iOS 端是完整的工程源码，但需要在 macOS 上才能构建。** 两端的关键参数与判定顺序在 `Memorize-Windows/README.md` 第四节做了逐条对照，差异在第五节逐项列出（含唯一一处有意改变原版行为的地方）。
 
 ## 功能
 
@@ -24,29 +37,37 @@
 
 ## 测试与 CI
 
-- **单元测试** 167 个：`MemorizeTests/`，14 个文件，XCTest。
-- **界面流程测试** 18 个：`MemorizeUITests/`，5 个文件，XCUITest。
-- **持续集成**：`.github/workflows/macos-native-test.yml` 在 GitHub 托管的 macOS runner 上执行 `xcodebuild test`，并归档 `.xcresult` 与日志。
+- **iOS 单元测试** 167 个：`MemorizeTests/`，14 个文件，XCTest。
+- **iOS 界面流程测试** 18 个：`MemorizeUITests/`，5 个文件，XCUITest。
+- **Windows 端回归测试** 108 条：`Memorize-Windows/tests/run-tests.js`，纯 Node，无需浏览器。
+- **持续集成**：`macos-native-test.yml` 在 macOS runner 上执行 `xcodebuild test`；`node-tests.yml` 在 ubuntu runner 上执行 Windows 端的 Node 回归测试并输出汇总。
 
 ## 目录结构
 
 ```
 .
 ├── Memorize.xcodeproj/        Xcode 工程（App / 单元测试 / UI 测试 三个 target）
-├── Memorize/                  应用源码
+├── Memorize/                  iOS 应用源码
 │   ├── Models/                卡牌、牌组、难度与计分规则、设置
 │   ├── ViewModels/            对局流程、倒计时、动画编排、错配调度协议
 │   ├── Views/                 首页、牌局、暂停、设置与通用组件
 │   └── Assets.xcassets/       资源目录
-├── MemorizeTests/             单元测试
-├── MemorizeUITests/           界面流程测试
+├── MemorizeTests/             iOS 单元测试
+├── MemorizeUITests/           iOS 界面流程测试
+├── Memorize-Windows/          Windows 端（原生 HTML / CSS / JS，零依赖）
+│   ├── index.html             入口页
+│   ├── js/                    model / viewmodel / store / layout / config / app / audio
+│   ├── tests/run-tests.js     108 条行为回归测试
+│   └── README.md              玩法、与原版的逐条对照与已知差异
 ├── Memorize答辩演示/          答辩文档、演示文稿与设计说明
 └── .github/workflows/         CI 配置
 ```
 
 ## 运行
 
-用 Xcode 打开 `Memorize.xcodeproj`，选择 `Memorize` scheme 与任意 iOS 17 模拟器运行；`⌘U` 执行全部测试。
+**iOS 端**：用 Xcode 打开 `Memorize.xcodeproj`，选择 `Memorize` scheme 与任意 iOS 17 模拟器运行；`⌘U` 执行全部测试。
+
+**Windows 端**：双击 `Memorize-Windows/index.html` 用浏览器打开即可；回归测试执行 `cd Memorize-Windows && node tests/run-tests.js`。
 
 ## 答辩材料
 

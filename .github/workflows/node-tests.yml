@@ -1,0 +1,59 @@
+# Memorize Windows 端回归测试（ubuntu runner）
+# 用途：用 Node 直接跑 Memorize-Windows/tests/run-tests.js，验证移植端的行为规则。
+# 说明：Windows 端是零依赖的原生 HTML/CSS/JS，测试只 require 本地 js/ 模块，不需要浏览器。
+name: Node 回归测试
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'Memorize-Windows/**'
+      - '.github/workflows/node-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  node-test:
+    name: node tests/run-tests.js
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 行为回归测试
+        working-directory: Memorize-Windows
+        run: |
+          set -euo pipefail
+          node --version
+          node tests/run-tests.js | tee node-test.log
+
+      - name: 结果汇总
+        if: always()
+        working-directory: Memorize-Windows
+        run: |
+          {
+            echo "### Windows 端回归测试"
+            echo '```'
+            grep -E '^总计 ' node-test.log || echo "未找到汇总行"
+            tail -2 node-test.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 上传日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: memorize-windows-node-test-log
+          if-no-files-found: warn
+          retention-days: 30
+          path: Memorize-Windows/node-test.log

@@ -39,8 +39,14 @@ output/
 # 本地工作区数据（会话记忆等，非交付物）
 .workbuddy/
 
+# 依赖目录（Windows 端目前零依赖，留着防止误提交）
+node_modules/
+
+# Windows 端自带的答辩材料与根目录 Memorize答辩演示/ 重复，不重复入库
+/Memorize-Windows/Memorize答辩/
+
 # 本地保留、不纳入本仓库的内容：
-# 实训过程文档、历史版本快照、Windows 端实现
+# 实训过程文档、历史版本快照
 /day1/
 /day2/
 /day3/
@@ -50,5 +56,4 @@ output/
 /day7/
 /day8/
 /Test/
-/Memorize-Windows/
 /.screenshots/
